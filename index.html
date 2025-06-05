@@ -44,7 +44,7 @@
             padding: 1.5rem; 
             border-radius: 16px;
             box-shadow: 0 12px 30px rgba(0, 70, 170, 0.1); 
-            max-width: 750px; /* Sedikit lebih lebar untuk dropdown unit */
+            max-width: 750px; 
             margin: 0 auto 2.5rem auto; 
             position: relative;
         }
@@ -57,7 +57,7 @@
             margin-bottom: 2rem; 
         }
         .input-group {
-            margin-bottom: 1.25rem; /* Jarak antar grup input */
+            margin-bottom: 1.25rem; 
         }
         .input-group label {
             display: block;
@@ -66,13 +66,13 @@
             font-weight: 500;
             font-size: 0.85rem; 
         }
-        .input-wrapper { /* Wrapper untuk input field dan dropdown unit */
+        .input-wrapper { 
             display: flex;
             align-items: center;
-            gap: 0.5rem; /* Jarak antara input dan unit dropdown */
+            gap: 0.5rem; 
         }
         .input-field {
-            flex-grow: 1; /* Input field mengambil sisa ruang */
+            flex-grow: 1; 
             padding: 0.7rem; 
             border: 1px solid #b0c4de;
             border-radius: 8px;
@@ -82,7 +82,11 @@
             background-color: #fdfdff;
             font-family: 'Montserrat', sans-serif;
         }
-        .select-field { /* Untuk dropdown tipe pondasi & keruntuhan */
+        .input-field[readonly] {
+            background-color: #e9ecef; /* Warna untuk field readonly */
+            cursor: not-allowed;
+        }
+        .select-field { 
             width: 100%;
             padding: 0.7rem;
             border: 1px solid #b0c4de;
@@ -91,14 +95,15 @@
             background-color: #fdfdff;
             font-family: 'Montserrat', sans-serif;
         }
-        .unit-select { /* Untuk dropdown satuan */
+        .unit-select { 
             padding: 0.7rem;
             border: 1px solid #b0c4de;
             border-radius: 8px;
             font-size: 0.85rem;
             background-color: #f8f9fa;
-            min-width: 100px; /* Lebar minimum dropdown unit */
+            min-width: 110px; /* Disesuaikan agar cukup untuk lb/ft³ */
             font-family: 'Montserrat', sans-serif;
+            flex-shrink: 0; /* Mencegah dropdown mengecil terlalu banyak */
         }
         .input-field:focus, .select-field:focus, .unit-select:focus {
             border-color: #0052cc;
@@ -154,17 +159,23 @@
             display: flex;
             width: 100%;
             align-items: baseline; 
+            gap: 0.5rem; /* Jarak antara nilai dan unit dropdown output */
         }
         .result-item span.value { 
             color: #004cb3;
             font-weight: 600;
             text-align: left; 
+            flex-grow: 1; /* Nilai mengambil ruang */
         }
-        .result-unit-text-output { 
-            font-size: 0.8rem;
-            color: #566573;
-            white-space: nowrap;
-            margin-left: 0.4rem; 
+        .result-unit-select-output { /* Dropdown untuk unit output */
+            padding: 0.4rem 0.6rem; /* Padding lebih kecil */
+            border: 1px solid #b0c4de;
+            border-radius: 6px;
+            font-size: 0.8rem; /* Font lebih kecil */
+            background-color: #ffffff;
+            min-width: 100px;
+            font-family: 'Montserrat', sans-serif;
+            flex-shrink: 0;
         }
         .formula-display {
             background-color: #e9f2ff;
@@ -233,133 +244,86 @@
             transform: scale(1.1);
         }
         .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: rgba(0, 0, 0, 0.6); 
-            display: none; 
-            justify-content: center;
-            align-items: center;
-            z-index: 1050; 
-            padding: 15px; 
-            box-sizing: border-box;
+            display: none; justify-content: center; align-items: center;
+            z-index: 1050; padding: 15px; box-sizing: border-box;
         }
         .modal-content {
-            background-color: #ffffff;
-            padding: 1.5rem; 
-            border-radius: 12px;
-            box-shadow: 0 5px 15px rgba(0,0,0,.5);
-            width: 100%;
-            max-width: 800px; 
-            max-height: 90vh; 
-            overflow-y: auto; 
-            position: relative;
+            background-color: #ffffff; padding: 1.5rem; border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,.5); width: 100%;
+            max-width: 800px; max-height: 90vh; overflow-y: auto; position: relative;
         }
         .modal-close-button {
-            position: absolute;
-            top: 10px; 
-            right: 15px;
-            font-size: 1.8rem; 
-            font-weight: bold;
-            color: #888;
-            cursor: pointer;
-            border: none;
-            background: none;
+            position: absolute; top: 10px; right: 15px; font-size: 1.8rem; 
+            font-weight: bold; color: #888; cursor: pointer; border: none; background: none;
         }
-        .modal-close-button:hover {
-            color: #555;
-        }
+        .modal-close-button:hover { color: #555; }
         .modal-section h4 {
-            font-size: 1.1rem; 
-            font-weight: 600;
-            color: #0052cc;
-            margin-top: 1.2rem;
-            margin-bottom: 0.7rem;
-            padding-bottom: 0.4rem;
-            border-bottom: 1px solid #d6e4f0;
+            font-size: 1.1rem; font-weight: 600; color: #0052cc; margin-top: 1.2rem;
+            margin-bottom: 0.7rem; padding-bottom: 0.4rem; border-bottom: 1px solid #d6e4f0;
         }
-        .modal-section p, .modal-section li {
-            font-size: 0.85rem; 
-            line-height: 1.6;
-            color: #343a40;
-            margin-bottom: 0.5rem;
-        }
-        .modal-section ul {
-            list-style-type: disc;
-            padding-left: 20px;
-        }
+        .modal-section p, .modal-section li { font-size: 0.85rem; line-height: 1.6; color: #343a40; margin-bottom: 0.5rem; }
+        .modal-section ul { list-style-type: disc; padding-left: 20px; }
         .modal-section .formula {
-            background-color: #f4f8ff;
-            padding: 0.7rem; 
-            border-radius: 6px;
-            border: 1px solid #d6e4f0;
-            margin: 0.5rem 0 1rem 0;
-            font-family: 'Courier New', Courier, monospace; 
-            font-size: 0.8rem; 
-            overflow-x: auto;
+            background-color: #f4f8ff; padding: 0.7rem; border-radius: 6px;
+            border: 1px solid #d6e4f0; margin: 0.5rem 0 1rem 0;
+            font-family: 'Courier New', Courier, monospace; font-size: 0.8rem; overflow-x: auto;
         }
         
-        /* Media Query untuk Mobile (misalnya, layar <= 640px) */
-        @media (max-width: 640px) {
-            .header-container {
-                flex-direction: column; 
-                gap: 0.5rem; 
-                padding: 0.75rem;
-            }
-            .header-logos {
-                gap: 0.5rem;
-                justify-content: center; 
-                width: 100%;
-            }
-            .logo {
-                max-height: 35px; 
-            }
-            .header-title {
-                font-size: 1rem; 
-                text-align: center; 
-            }
-            .calculator-container {
-                padding: 1.5rem; 
-                margin: 1rem; 
-            }
-            .main-title {
-                font-size: 1.3rem; 
-                margin-bottom: 1.5rem;
-            }
+        /* Media Query untuk Mobile (layar <= 768px untuk penyesuaian input-wrapper) */
+        @media (max-width: 768px) { /* Disesuaikan agar lebih cepat wrap jika perlu */
             .input-grid { 
                 grid-template-columns: 1fr; 
                 gap: 1rem; 
             }
-            .input-wrapper { /* Di mobile, pastikan input dan unitnya sejajar jika memungkinkan */
-                 /* Biarkan flex-direction: row dari default, biarkan browser wrap jika perlu */
-                 /* Atau jika ingin tetap bertumpuk:
-                 flex-direction: column;
-                 align-items: flex-start; */
+             .input-wrapper {
+                /* Biarkan flex-direction: row; browser akan wrap jika tidak cukup ruang */
+                flex-wrap: wrap; /* Izinkan wrapping */
             }
             .input-wrapper .input-field {
-                /* margin-bottom: 0.25rem; (hanya jika bertumpuk) */
+                min-width: 150px; /* Lebar minimum sebelum unit turun */
+                flex-basis: calc(100% - 120px - 0.5rem); /* Usaha agar unit tetap di samping jika muat */
             }
             .input-wrapper .unit-select {
-                 /* margin-left: 0; (hanya jika bertumpuk) */
-                 /* min-width: 0; (agar bisa lebih sempit) */
-                 /* flex-basis: 120px; (atau lebar tetap yang sesuai) */
+                flex-basis: 110px; /* Lebar tetap untuk unit select */
+                flex-shrink: 0;
             }
+        }
+        @media (max-width: 480px) { /* Aturan lebih spesifik untuk layar sangat kecil */
+             .header-container { flex-direction: column; gap: 0.5rem; padding: 0.75rem; }
+             .header-logos { gap: 0.5rem; justify-content: center; width: 100%; }
+             .logo { max-height: 35px; }
+             .header-title { font-size: 1rem; text-align: center; }
+             .calculator-container { padding: 1rem; margin: 0.75rem; } /* Perkecil padding container */
+             .main-title { font-size: 1.2rem; margin-bottom: 1.2rem; }
+             .input-wrapper { /* Paksa tumpuk jika layar sangat sempit */
+                flex-direction: column;
+                align-items: stretch; /* Input dan unit mengambil lebar penuh */
+             }
+             .input-wrapper .input-field {
+                 margin-bottom: 0.3rem;
+                 width: 100%;
+             }
+             .input-wrapper .unit-select {
+                 margin-left: 0;
+                 width: 100%; /* Unit select juga full width */
+             }
+             .unit-text { /* Untuk unit yang bukan dropdown */
+                margin-left: 0;
+                margin-top: 0.25rem;
+                width: 100%;
+             }
 
-            .result-entry {
-                /* Sudah flex-direction: column by default */
-            }
-            .formula-display {
-                font-size: 0.75rem; 
-            }
-            .modal-content {
-                padding: 1rem; 
-                max-height: 95vh; 
-            }
-             .modal-section h4 { font-size: 1rem; }
-             .modal-section p, .modal-section li { font-size: 0.8rem; }
-             .modal-section .formula { font-size: 0.75rem; }
+            .results-container h3 { font-size: 1.05rem; }
+            .result-entry { font-size: 0.85rem; padding: 0.6rem 0.8rem; }
+            .result-item-label { margin-bottom: 0.15rem;}
+            .result-unit-text-output { font-size: 0.75rem;}
+            .formula-display { font-size: 0.75rem; padding: 0.8rem;}
+            .modal-content { padding: 1rem; max-height: 95vh; }
+            .modal-section h4 { font-size: 1rem; }
+            .modal-section p, .modal-section li { font-size: 0.8rem; }
+            .modal-section .formula { font-size: 0.75rem; }
         }
     </style>
 </head>
@@ -367,7 +331,6 @@
 
 <div class="header-container">
     <div class="header-logos">
-        <!-- Logo ITS dan HMDS dengan URL baru -->
         <img src="https://github.com/arenoee/Analisis-daya-dukung-pondasi/blob/main/Logo%20ITS.png?raw=true" alt="Logo ITS" class="logo" onerror="this.onerror=null;this.src='https://placehold.co/150x50/cccccc/000000?text=Logo+ITS+Error';">
         <img src="https://github.com/arenoee/Analisis-daya-dukung-pondasi/blob/main/Logo%20HMDS.png?raw=true" alt="Logo HMDS" class="logo" onerror="this.onerror=null;this.src='https://placehold.co/60x60/cccccc/000000?text=Logo+HMDS+Error';">
     </div>
@@ -411,17 +374,18 @@
             <label for="sudutGeser">Sudut Geser Dalam (φ):</label>
              <div class="input-wrapper">
                 <input type="number" id="sudutGeser" step="any" class="input-field" placeholder="e.g., 25">
-                <span class="unit-text" style="min-width:100px; text-align:left;">derajat</span> <!-- Span biasa jika unit tetap -->
+                <span class="unit-text" style="min-width:100px; text-align:left;">derajat</span>
             </div>
         </div>
         <div class="input-group">
             <label for="gammaTanah">Berat Vol. Tanah (γ) (di atas MAT/lembab):</label>
             <div class="input-wrapper">
                 <input type="number" id="gammaTanah" step="any" class="input-field" placeholder="e.g., 0.0018">
-                 <select id="gammaTanahUnit" class="unit-select">
+                 <select id="gammaTanahUnit" class="unit-select density-unit-sync">
                     <option value="kg/cm3">kg/cm³</option>
                     <option value="ton/m3">ton/m³</option>
                     <option value="kN/m3">kN/m³</option>
+                    <option value="lb/ft3">lb/ft³ (pcf)</option>
                 </select>
             </div>
         </div>
@@ -451,7 +415,7 @@
             <label for="faktorKeamanan">Faktor Keamanan (SF):</label>
             <div class="input-wrapper">
                 <input type="number" id="faktorKeamanan" step="any" class="input-field" value="3">
-                <span class="unit-text" style="min-width:100px;"></span> <!-- Kosongkan unit jika tidak ada -->
+                <span class="unit-text" style="min-width:110px;"></span> <!-- Disesuaikan agar sejajar -->
             </div>
         </div>
     </div>
@@ -473,21 +437,23 @@
             <label for="gammaSat">Berat Volume Jenuh Tanah (γ<sub>sat</sub>):</label>
             <div class="input-wrapper">
                 <input type="number" id="gammaSat" step="any" class="input-field" placeholder="e.g., 0.0020 atau kosong">
-                <select id="gammaSatUnit" class="unit-select">
+                <select id="gammaSatUnit" class="unit-select density-unit-sync">
                     <option value="kg/cm3">kg/cm³</option>
                     <option value="ton/m3">ton/m³</option>
                     <option value="kN/m3">kN/m³</option>
+                    <option value="lb/ft3">lb/ft³ (pcf)</option>
                 </select>
             </div>
         </div>
         <div class="input-group">
             <label for="gammaAir">Berat Volume Air (γ<sub>w</sub>):</label>
             <div class="input-wrapper">
-                <input type="number" id="gammaAir" step="any" class="input-field" value="0.001">
-                <select id="gammaAirUnit" class="unit-select">
+                <input type="number" id="gammaAir" step="any" class="input-field" value="0.001" readonly> <!-- Readonly -->
+                <select id="gammaAirUnit" class="unit-select density-unit-sync">
                     <option value="kg/cm3">kg/cm³</option>
                     <option value="ton/m3">ton/m³</option>
                     <option value="kN/m3">kN/m³</option>
+                    <option value="lb/ft3">lb/ft³ (pcf)</option>
                 </select>
             </div>
         </div>
@@ -550,7 +516,11 @@
             <div class="result-item-label">Daya Dukung Ultimit (q<sub>ult</sub>):</div>
             <div class="result-item-value-unit-container">
                 <span id="hasilQult" class="value">-</span>
-                <span class="result-unit-text-output" id="unitOutputQult">kg/cm²</span>
+                <select id="qultUnitOutput" class="result-unit-select-output">
+                    <option value="kg/cm2">kg/cm²</option>
+                    <option value="ton/m2">ton/m²</option>
+                    <option value="kN/m2">kN/m² (kPa)</option>
+                </select>
             </div>
         </div>
         <div id="formulaDisplayContainer" class="formula-display" style="display:none;">
@@ -561,7 +531,11 @@
             <div class="result-item-label">Daya Dukung Aman (q<sub>all</sub>):</div>
             <div class="result-item-value-unit-container">
                 <span id="hasilQall" class="value">-</span>
-                <span class="result-unit-text-output" id="unitOutputQall">kg/cm²</span>
+                 <select id="qallUnitOutput" class="result-unit-select-output">
+                    <option value="kg/cm2">kg/cm²</option>
+                    <option value="ton/m2">ton/m²</option>
+                    <option value="kN/m2">kN/m² (kPa)</option>
+                </select>
             </div>
         </div>
     </div>
@@ -569,19 +543,18 @@
     <div class="watermark">
         D4 Teknologi Rekayasa Konstruksi Bangunan Air<br>
         Institut Teknologi Sepuluh Nopember<br>
-        <i>Nahar Dwi Febriano</i> <!-- Watermark italic -->
+        <i>Nahar Dwi Febriano</i>
     </div>
 </div>
 
 <!-- Tombol Bantuan (?) -->
 <div id="helpButton" class="help-button" onclick="toggleHelpModal()">?</div>
 
-<!-- Modal untuk Teori (Konten Modal sama seperti sebelumnya, tidak saya ulangi di sini untuk keringkasan) -->
+<!-- Modal untuk Teori (Konten Modal sama seperti sebelumnya) -->
 <div id="helpModal" class="modal-overlay" onclick="closeHelpModalOutside(event)">
     <div class="modal-content" onclick="event.stopPropagation()">
         <button class="modal-close-button" onclick="toggleHelpModal()">&times;</button>
         <h3 style="font-size: 1.5rem; color: #0052cc; margin-top:0;">Dasar Teori Perhitungan</h3>
-        
         <div class="modal-section">
             <h4>Keruntuhan Geser Umum (General Shear Failure)</h4>
             <p>Terjadi pada tanah padat atau kaku. Formula daya dukung ultimit (q<sub>ult</sub>) Terzaghi:</p>
@@ -595,7 +568,6 @@
             </ul>
             <p>Dimana: c = kohesi tanah, q = tekanan overburden efektif di dasar pondasi, γ<sub>eff</sub> = berat volume efektif tanah di bawah dasar pondasi, B = lebar/diameter pondasi, N<sub>c</sub>, N<sub>q</sub>, N<sub>γ</sub> = faktor daya dukung Terzaghi (fungsi dari φ).</p>
         </div>
-
         <div class="modal-section">
             <h4>Keruntuhan Geser Lokal (Local Shear Failure)</h4>
             <p>Terjadi pada tanah lepas atau lunak. Parameter tanah yang dimodifikasi digunakan:</p>
@@ -613,25 +585,21 @@
                     <div class="formula">q<sub>ult</sub> = 0.867·c'·N'<sub>c</sub> + q·N'<sub>q</sub> + 0.3·γ<sub>eff</sub>·B·N'<sub>γ</sub></div></li>
             </ul>
         </div>
-
         <div class="modal-section">
             <h4>Pengaruh Muka Air Tanah (MAT)</h4>
             <p>MAT mempengaruhi tekanan overburden (q) dan berat volume tanah (γ<sub>eff</sub>) dalam suku ketiga persamaan.</p>
             <p>Diketahui: D<sub>f</sub> = kedalaman pondasi, D<sub>w</sub> = kedalaman MAT dari permukaan, γ = berat volume tanah lembab/di atas MAT, γ<sub>sat</sub> = berat volume jenuh, γ<sub>w</sub> = berat volume air.</p>
             <p>Berat volume apung/efektif tanah: <div class="formula">γ' = γ<sub>sat</sub> - γ<sub>w</sub></div></p>
-            
             <h5>Kondisi 1: MAT di atas dasar pondasi (D<sub>w</sub> &lt; D<sub>f</sub>)</h5>
             <ul>
                 <li>Tekanan overburden: <div class="formula">q<sub>adj</sub> = (γ · D<sub>w</sub>) + (γ' · (D<sub>f</sub> - D<sub>w</sub>))</div></li>
                 <li>Berat volume untuk suku ke-3: <div class="formula">γ<sub>eff</sub> = γ'</div></li>
             </ul>
-
             <h5>Kondisi 2: MAT tepat di dasar pondasi (D<sub>w</sub> = D<sub>f</sub>)</h5>
             <ul>
                 <li>Tekanan overburden: <div class="formula">q<sub>adj</sub> = γ · D<sub>f</sub></div></li>
                 <li>Berat volume untuk suku ke-3: <div class="formula">γ<sub>eff</sub> = γ'</div></li>
             </ul>
-
             <h5>Kondisi 3: MAT di bawah dasar pondasi (D<sub>w</sub> &gt; D<sub>f</sub>)</h5>
             <p>Jarak MAT dari dasar pondasi: d = D<sub>w</sub> - D<sub>f</sub></p>
             <ul>
@@ -648,32 +616,36 @@
     </div>
 </div>
 
-
 <script>
-    // --- FAKTOR KONVERSI KE kg dan cm (SATUAN DASAR INTERNAL) ---
     const unitFactors = {
-        pressure: { // Untuk kohesi, q, q_ult, q_all
+        pressure: {
             'kg/cm2': 1,
-            'ton/m2': 1000 / (100*100), // 1 ton = 1000 kg, 1 m2 = 10000 cm2 -> 0.1
-            'kN/m2': 1000 / (9.81 * 100 * 100) // 1 kN ~ 1000/9.81 kg -> 0.1019...
+            'ton/m2': 0.1, // 1000 kg/10000 cm2
+            'kN/m2': 0.101971621 // (1000 kg / 9.81 m/s2) / 10000 cm2
         },
-        density: { // Untuk gamma, gamma_sat, gamma_w
+        density: {
             'kg/cm3': 1,
-            'ton/m3': 1000 / (100*100*100), // -> 0.001
-            'kN/m3': 1000 / (9.81 * 100*100*100) // -> 0.0001019...
+            'ton/m3': 0.001, // 1000 kg / 1000000 cm3
+            'kN/m3': 0.000101971621, // (1000 kg / 9.81 m/s2) / 1000000 cm3
+            'lb/ft3': 0.00001601846 // 0.453592 kg / (30.48^3) cm3
         },
-        length: { // Untuk B, Df, Dw
+        length: {
             'm': 100,
             'cm': 1,
-            'ft': 30.48 
+            'ft': 30.48
         }
     };
-    // Satuan dasar internal yang akan digunakan untuk semua perhitungan
+
+    const standardGammaWaterValues = { // Nilai standar gamma_w dalam berbagai satuan
+        'kg/cm3': 0.001,
+        'ton/m3': 1.0,
+        'kN/m3': 9.81,
+        'lb/ft3': 62.4
+    };
+
     const BASE_UNIT_PRESSURE = 'kg/cm2';
     const BASE_UNIT_DENSITY = 'kg/cm3';
-    const BASE_UNIT_LENGTH = 'cm';
-
-    // Data Tabel Faktor Daya Dukung (Sama seperti sebelumnya)
+    // Data tabel generalShearFactors dan localShearFactors (sama seperti sebelumnya)
     const generalShearFactors = [
         { phi: 0, Nc: 5.70, Nq: 1.00, Ng: 0.00 }, { phi: 1, Nc: 6.00, Nq: 1.10, Ng: 0.01 },
         { phi: 2, Nc: 6.30, Nq: 1.22, Ng: 0.04 }, { phi: 3, Nc: 6.62, Nq: 1.35, Ng: 0.06 },
@@ -736,16 +708,16 @@
         const valueStr = document.getElementById(inputId).value;
         const selectedUnit = document.getElementById(unitId).value;
         
-        if (valueStr === "") return null; // Kembalikan null jika input kosong
+        if (valueStr === "" && inputId !== 'gammaAir') return null;
+        if (inputId === 'gammaAir' && valueStr === "") return null; // gammaAir juga harus diisi
         
         const value = parseFloat(valueStr);
-        if (isNaN(value)) return NaN; // Kembalikan NaN jika bukan angka
+        if (isNaN(value)) return NaN; 
 
-        // Konversi ke satuan dasar internal (kg dan cm)
         if (unitType === 'pressure') return value * unitFactors.pressure[selectedUnit];
         if (unitType === 'density') return value * unitFactors.density[selectedUnit];
         if (unitType === 'length') return value * unitFactors.length[selectedUnit];
-        return value; // Jika tidak ada unitType yang cocok, kembalikan nilai asli (misal untuk SF, phi)
+        return value;
     }
 
     function displayMessage(message, type = 'info') {
@@ -788,42 +760,85 @@
         }
     }
 
+    let q_ult_base_unit_value = null; // Variabel global untuk menyimpan q_ult dalam satuan dasar
+    let q_all_base_unit_value = null; // Variabel global untuk menyimpan q_all dalam satuan dasar
+
+    function updateGammaAirValueAndSyncUnits(changedUnitSelectId) {
+        const selectedUnit = document.getElementById(changedUnitSelectId).value;
+        
+        // Update nilai gammaAir
+        const gammaAirInput = document.getElementById('gammaAir');
+        if (standardGammaWaterValues[selectedUnit]) {
+            gammaAirInput.value = standardGammaWaterValues[selectedUnit].toFixed(selectedUnit === 'kg/cm3' || selectedUnit === 'lb/ft3' ? (selectedUnit === 'lb/ft3' ? 1:3) : 2); // Sesuaikan desimal
+        }
+
+        // Sinkronisasi unit dropdown density lainnya
+        const allDensityUnitSelects = document.querySelectorAll('.density-unit-sync');
+        allDensityUnitSelects.forEach(select => {
+            if (select.id !== changedUnitSelectId) {
+                select.value = selectedUnit;
+            }
+        });
+    }
+    
+    // Event listener untuk sinkronisasi unit density dan update gammaAir
+    document.querySelectorAll('.density-unit-sync').forEach(select => {
+        select.addEventListener('change', function() {
+            updateGammaAirValueAndSyncUnits(this.id);
+        });
+    });
+    
+    // Panggil sekali saat load untuk set nilai gammaAir awal berdasarkan unit default
+    document.addEventListener('DOMContentLoaded', () => {
+        updateGammaAirValueAndSyncUnits('gammaAirUnit'); // Gunakan gammaAirUnit sebagai referensi awal
+        
+        // Tambahkan event listener untuk output unit selectors
+        document.getElementById('qultUnitOutput').addEventListener('change', function() {
+            if (q_ult_base_unit_value !== null) {
+                const converted_q_ult = q_ult_base_unit_value / unitFactors.pressure[this.value];
+                document.getElementById('hasilQult').textContent = converted_q_ult.toFixed(3);
+            }
+        });
+        document.getElementById('qallUnitOutput').addEventListener('change', function() {
+            if (q_all_base_unit_value !== null) {
+                const converted_q_all = q_all_base_unit_value / unitFactors.pressure[this.value];
+                document.getElementById('hasilQall').textContent = converted_q_all.toFixed(3);
+            }
+        });
+    });
+
+
     function hitungDayaDukung() {
         clearMessages();
+        q_ult_base_unit_value = null; // Reset nilai global
+        q_all_base_unit_value = null;
 
         const tipePondasi = document.getElementById('tipePondasi').value;
         const tipeKeruntuhan = document.getElementById('tipeKeruntuhan').value;
         
-        // Ambil nilai dengan konversi unit
-        const c_cm = getElementValueWithUnit('kohesi', 'kohesiUnit', 'pressure'); // Hasil dalam kg/cm2
-        const phi_input = parseFloat(document.getElementById('sudutGeser').value); // Derajat, tidak perlu konversi unit
-        const gamma_tanah_cm = getElementValueWithUnit('gammaTanah', 'gammaTanahUnit', 'density'); // Hasil dalam kg/cm3
-        const B_cm = getElementValueWithUnit('lebarPondasi', 'lebarPondasiUnit', 'length'); // Hasil dalam cm
-        const Df_cm = getElementValueWithUnit('kedalamanPondasi', 'kedalamanPondasiUnit', 'length'); // Hasil dalam cm
+        const c_cm = getElementValueWithUnit('kohesi', 'kohesiUnit', 'pressure'); 
+        const phi_input = parseFloat(document.getElementById('sudutGeser').value); 
+        const gamma_tanah_cm = getElementValueWithUnit('gammaTanah', 'gammaTanahUnit', 'density'); 
+        const B_cm = getElementValueWithUnit('lebarPondasi', 'lebarPondasiUnit', 'length'); 
+        const Df_cm = getElementValueWithUnit('kedalamanPondasi', 'kedalamanPondasiUnit', 'length'); 
         const SF_input = parseFloat(document.getElementById('faktorKeamanan').value);
         
         let Dw_cm_val_str = document.getElementById('kedalamanMAT').value;
         let gamma_sat_cm_val_str = document.getElementById('gammaSat').value;
-        const gamma_w_cm = getElementValueWithUnit('gammaAir', 'gammaAirUnit', 'density'); // Hasil dalam kg/cm3
+        const gamma_w_cm = getElementValueWithUnit('gammaAir', 'gammaAirUnit', 'density'); 
 
         let Dw_cm = Dw_cm_val_str === "" ? null : getElementValueWithUnit('kedalamanMAT', 'kedalamanMATUnit', 'length');
         let gamma_sat_cm = gamma_sat_cm_val_str === "" ? null : getElementValueWithUnit('gammaSat', 'gammaSatUnit', 'density');
 
-        // Validasi Input (setelah konversi)
         const inputsToValidate = {
-            "Kohesi Tanah (c)": c_cm,
-            "Sudut Geser Dalam (φ)": phi_input,
-            "Berat Vol. Tanah (γ)": gamma_tanah_cm,
-            "Lebar/Diameter Pondasi (B)": B_cm,
-            "Kedalaman Dasar Pondasi (Df)": Df_cm,
-            "Faktor Keamanan (SF)": SF_input,
-            "Berat Volume Air (γw)": gamma_w_cm
+            "Kohesi Tanah (c)": c_cm, "Sudut Geser Dalam (φ)": phi_input, "Berat Vol. Tanah (γ)": gamma_tanah_cm,
+            "Lebar/Diameter Pondasi (B)": B_cm, "Kedalaman Dasar Pondasi (Df)": Df_cm,
+            "Faktor Keamanan (SF)": SF_input, "Berat Volume Air (γw)": gamma_w_cm
         };
 
         for (const label in inputsToValidate) {
             if (inputsToValidate[label] === null || isNaN(inputsToValidate[label])) {
-                displayMessage(`Error: Input "${label}" tidak valid atau kosong.`, 'error');
-                return;
+                displayMessage(`Error: Input "${label}" tidak valid atau kosong.`, 'error'); return;
             }
         }
         
@@ -841,7 +856,6 @@
             if (gamma_sat_cm < gamma_w_cm) {displayMessage("Error: Gamma jenuh (γsat) harus lebih besar atau sama dengan gamma air (γw).", 'error'); return;}
         }
 
-
         const phi = phi_input; 
         const gamma = gamma_tanah_cm; 
         const SF = SF_input;
@@ -857,12 +871,8 @@
         }
 
         let factors;
-        let c_eff = c_cm; // c_eff akan dalam kg/cm2
-        let Nc_symbol = "N<sub>c</sub>";
-        let Nq_symbol = "N<sub>q</sub>";
-        let Ng_symbol = "N<sub>γ</sub>";
-        let c_symbol = "c";
-
+        let c_eff = c_cm; 
+        let Nc_symbol = "N<sub>c</sub>", Nq_symbol = "N<sub>q</sub>", Ng_symbol = "N<sub>γ</sub>", c_symbol = "c";
         document.getElementById('cPrimaRow').style.display = 'none';
 
         if (tipeKeruntuhan === 'umum') {
@@ -873,10 +883,11 @@
             Nc_symbol = "N'<sub>c</sub>"; Nq_symbol = "N'<sub>q</sub>"; Ng_symbol = "N'<sub>γ</sub>"; c_symbol = "c'";
             document.getElementById('hasilCprime').textContent = c_eff.toFixed(3);
             document.getElementById('unitOutputCprime').textContent = BASE_UNIT_PRESSURE.replace('kg/cm2', 'kg/cm²');
-            document.getElementById('cPrimaRow').style.display = 'flex'; 
+            const cPrimaRow = document.getElementById('cPrimaRow');
+            cPrimaRow.style.display = 'flex'; 
         }
 
-        if (!factors || factors.Nc === null || factors.Nq === null || factors.Ng === null || isNaN(factors.Nc) || isNaN(factors.Nq) || isNaN(factors.Ng) ) {
+        if (!factors || factors.Nc === null || isNaN(factors.Nc)) {
             displayMessage("Error: Tidak dapat menghitung faktor daya dukung. Periksa nilai sudut geser.", 'error');
             ['hasilNc', 'hasilNq', 'hasilNgamma'].forEach(id => document.getElementById(id).textContent = '-');
             return;
@@ -909,7 +920,6 @@
         document.getElementById('hasilGammaEff').textContent = gamma_effective_for_MAT.toFixed(4);
         document.getElementById('unitOutputGammaEff').textContent = BASE_UNIT_DENSITY.replace('kg/cm3', 'kg/cm³');
 
-
         let q_ult;
         let formulaString = "";
         let sc_val = 1, sq_val = 1, sg_val = 1;
@@ -937,17 +947,20 @@
             }
         }
 
+        q_ult_base_unit_value = q_ult; // Simpan dalam satuan dasar (kg/cm2)
         const q_all = q_ult / SF;
+        q_all_base_unit_value = q_all; // Simpan dalam satuan dasar (kg/cm2)
 
-        // Menampilkan hasil (output akan selalu dalam kg/cm2 dan kg/cm3)
+        // Tampilkan hasil q_ult dan q_all dalam satuan yang dipilih di dropdown output
+        const selectedQultUnit = document.getElementById('qultUnitOutput').value;
+        const selectedQallUnit = document.getElementById('qallUnitOutput').value;
+
         document.getElementById('hasilNc').textContent = Nc.toFixed(2);
         document.getElementById('hasilNq').textContent = Nq.toFixed(2);
         document.getElementById('hasilNgamma').textContent = Ng.toFixed(3);
-        document.getElementById('hasilQult').textContent = q_ult.toFixed(3);
-        document.getElementById('unitOutputQult').textContent = BASE_UNIT_PRESSURE.replace('kg/cm2', 'kg/cm²');
-        document.getElementById('hasilQall').textContent = q_all.toFixed(3);
-        document.getElementById('unitOutputQall').textContent = BASE_UNIT_PRESSURE.replace('kg/cm2', 'kg/cm²');
-
+        
+        document.getElementById('hasilQult').textContent = (q_ult_base_unit_value / unitFactors.pressure[selectedQultUnit]).toFixed(3);
+        document.getElementById('hasilQall').textContent = (q_all_base_unit_value / unitFactors.pressure[selectedQallUnit]).toFixed(3);
 
         document.getElementById('formulaText').innerHTML = formulaString.replace(/\*/g, '×');
         document.getElementById('formulaDisplayContainer').style.display = 'block';
