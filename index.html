@@ -70,9 +70,11 @@
             display: flex;
             align-items: center;
             gap: 0.5rem; 
+            /* flex-wrap: nowrap; /* Mencegah wrapping jika memungkinkan */
         }
         .input-field {
             flex-grow: 1; 
+            min-width: 50px; /* Agar input tidak hilang jika unit terlalu lebar */
             padding: 0.7rem; 
             border: 1px solid #b0c4de;
             border-radius: 8px;
@@ -83,7 +85,7 @@
             font-family: 'Montserrat', sans-serif;
         }
         .input-field[readonly] {
-            background-color: #e9ecef; /* Warna untuk field readonly */
+            background-color: #e9ecef; 
             cursor: not-allowed;
         }
         .select-field { 
@@ -101,9 +103,18 @@
             border-radius: 8px;
             font-size: 0.85rem;
             background-color: #f8f9fa;
-            min-width: 110px; /* Disesuaikan agar cukup untuk lb/ft³ */
+            min-width: 105px; /* Disesuaikan agar cukup untuk lb/ft³ */
             font-family: 'Montserrat', sans-serif;
-            flex-shrink: 0; /* Mencegah dropdown mengecil terlalu banyak */
+            flex-shrink: 0; 
+        }
+        .unit-text { /* Untuk unit yang bukan dropdown, seperti 'derajat' */
+             font-size: 0.85rem;
+             color: #566573;
+             white-space: nowrap;
+             flex-shrink: 0;
+             padding: 0.7rem 0; /* Menyamakan tinggi dengan select */
+             min-width: 105px;
+             text-align: left;
         }
         .input-field:focus, .select-field:focus, .unit-select:focus {
             border-color: #0052cc;
@@ -159,19 +170,19 @@
             display: flex;
             width: 100%;
             align-items: baseline; 
-            gap: 0.5rem; /* Jarak antara nilai dan unit dropdown output */
+            gap: 0.5rem; 
         }
         .result-item span.value { 
             color: #004cb3;
             font-weight: 600;
             text-align: left; 
-            flex-grow: 1; /* Nilai mengambil ruang */
+            flex-grow: 1; 
         }
-        .result-unit-select-output { /* Dropdown untuk unit output */
-            padding: 0.4rem 0.6rem; /* Padding lebih kecil */
+        .result-unit-select-output { 
+            padding: 0.4rem 0.6rem; 
             border: 1px solid #b0c4de;
             border-radius: 6px;
-            font-size: 0.8rem; /* Font lebih kecil */
+            font-size: 0.8rem; 
             background-color: #ffffff;
             min-width: 100px;
             font-family: 'Montserrat', sans-serif;
@@ -218,31 +229,17 @@
             font-size: 0.7rem; 
             color: #778da9;
             line-height: 1.4;
-            font-style: italic; /* Watermark italic */
+            font-style: italic; 
         }
         .help-button {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: #0062e6;
-            color: white;
-            width: 45px; 
-            height: 45px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 1.6rem; 
-            font-weight: bold;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0, 70, 170, 0.3);
-            z-index: 1000; 
+            position: fixed; bottom: 20px; right: 20px; background-color: #0062e6;
+            color: white; width: 45px; height: 45px; border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            font-size: 1.6rem; font-weight: bold; cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 70, 170, 0.3); z-index: 1000; 
             transition: background-color 0.2s ease, transform 0.2s ease;
         }
-        .help-button:hover {
-            background-color: #004cb3;
-            transform: scale(1.1);
-        }
+        .help-button:hover { background-color: #004cb3; transform: scale(1.1); }
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: rgba(0, 0, 0, 0.6); 
@@ -271,59 +268,49 @@
             font-family: 'Courier New', Courier, monospace; font-size: 0.8rem; overflow-x: auto;
         }
         
-        /* Media Query untuk Mobile (layar <= 768px untuk penyesuaian input-wrapper) */
-        @media (max-width: 768px) { /* Disesuaikan agar lebih cepat wrap jika perlu */
+        /* Media Query untuk Mobile */
+        @media (max-width: 768px) { 
             .input-grid { 
                 grid-template-columns: 1fr; 
                 gap: 1rem; 
             }
-             .input-wrapper {
-                /* Biarkan flex-direction: row; browser akan wrap jika tidak cukup ruang */
-                flex-wrap: wrap; /* Izinkan wrapping */
-            }
-            .input-wrapper .input-field {
-                min-width: 150px; /* Lebar minimum sebelum unit turun */
-                flex-basis: calc(100% - 120px - 0.5rem); /* Usaha agar unit tetap di samping jika muat */
-            }
-            .input-wrapper .unit-select {
-                flex-basis: 110px; /* Lebar tetap untuk unit select */
-                flex-shrink: 0;
-            }
         }
-        @media (max-width: 480px) { /* Aturan lebih spesifik untuk layar sangat kecil */
+        @media (max-width: 480px) { 
              .header-container { flex-direction: column; gap: 0.5rem; padding: 0.75rem; }
              .header-logos { gap: 0.5rem; justify-content: center; width: 100%; }
              .logo { max-height: 35px; }
              .header-title { font-size: 1rem; text-align: center; }
-             .calculator-container { padding: 1rem; margin: 0.75rem; } /* Perkecil padding container */
+             .calculator-container { padding: 1rem; margin: 0.75rem; } 
              .main-title { font-size: 1.2rem; margin-bottom: 1.2rem; }
-             .input-wrapper { /* Paksa tumpuk jika layar sangat sempit */
-                flex-direction: column;
-                align-items: stretch; /* Input dan unit mengambil lebar penuh */
-             }
-             .input-wrapper .input-field {
-                 margin-bottom: 0.3rem;
-                 width: 100%;
-             }
-             .input-wrapper .unit-select {
-                 margin-left: 0;
-                 width: 100%; /* Unit select juga full width */
-             }
-             .unit-text { /* Untuk unit yang bukan dropdown */
-                margin-left: 0;
-                margin-top: 0.25rem;
-                width: 100%;
-             }
+            
+            /* Penyesuaian agar input dan unit tetap sejajar jika memungkinkan di mobile */
+            .input-wrapper {
+                /* flex-wrap: wrap; /* Biarkan wrap jika tidak muat sama sekali */
+            }
+            .input-field {
+                padding: 0.6rem;
+                font-size: 0.85rem;
+            }
+            .unit-select, .unit-text {
+                padding: 0.6rem 0.4rem; /* Kurangi padding horizontal unit */
+                font-size: 0.8rem;
+                min-width: 85px; /* Perkecil min-width unit */
+            }
+            .unit-text { /* Khusus untuk span unit-text */
+                 padding-left: 0; /* Hapus padding kiri jika itu span biasa */
+                 padding-right: 0;
+            }
+
 
             .results-container h3 { font-size: 1.05rem; }
             .result-entry { font-size: 0.85rem; padding: 0.6rem 0.8rem; }
             .result-item-label { margin-bottom: 0.15rem;}
-            .result-unit-text-output { font-size: 0.75rem;}
+            .result-unit-select-output { font-size: 0.75rem; padding: 0.3rem 0.5rem;}
             .formula-display { font-size: 0.75rem; padding: 0.8rem;}
             .modal-content { padding: 1rem; max-height: 95vh; }
-            .modal-section h4 { font-size: 1rem; }
-            .modal-section p, .modal-section li { font-size: 0.8rem; }
-            .modal-section .formula { font-size: 0.75rem; }
+             .modal-section h4 { font-size: 1rem; }
+             .modal-section p, .modal-section li { font-size: 0.8rem; }
+             .modal-section .formula { font-size: 0.75rem; }
         }
     </style>
 </head>
@@ -374,7 +361,7 @@
             <label for="sudutGeser">Sudut Geser Dalam (φ):</label>
              <div class="input-wrapper">
                 <input type="number" id="sudutGeser" step="any" class="input-field" placeholder="e.g., 25">
-                <span class="unit-text" style="min-width:100px; text-align:left;">derajat</span>
+                <span class="unit-text">derajat</span>
             </div>
         </div>
         <div class="input-group">
@@ -415,7 +402,7 @@
             <label for="faktorKeamanan">Faktor Keamanan (SF):</label>
             <div class="input-wrapper">
                 <input type="number" id="faktorKeamanan" step="any" class="input-field" value="3">
-                <span class="unit-text" style="min-width:110px;"></span> <!-- Disesuaikan agar sejajar -->
+                <span class="unit-text" style="min-width:105px;"></span> <!-- Disesuaikan agar sejajar dengan select -->
             </div>
         </div>
     </div>
@@ -448,7 +435,7 @@
         <div class="input-group">
             <label for="gammaAir">Berat Volume Air (γ<sub>w</sub>):</label>
             <div class="input-wrapper">
-                <input type="number" id="gammaAir" step="any" class="input-field" value="0.001" readonly> <!-- Readonly -->
+                <input type="number" id="gammaAir" step="any" class="input-field" value="0.001" readonly> 
                 <select id="gammaAirUnit" class="unit-select density-unit-sync">
                     <option value="kg/cm3">kg/cm³</option>
                     <option value="ton/m3">ton/m³</option>
@@ -550,7 +537,7 @@
 <!-- Tombol Bantuan (?) -->
 <div id="helpButton" class="help-button" onclick="toggleHelpModal()">?</div>
 
-<!-- Modal untuk Teori (Konten Modal sama seperti sebelumnya) -->
+<!-- Modal untuk Teori (Konten sama seperti sebelumnya) -->
 <div id="helpModal" class="modal-overlay" onclick="closeHelpModalOutside(event)">
     <div class="modal-content" onclick="event.stopPropagation()">
         <button class="modal-close-button" onclick="toggleHelpModal()">&times;</button>
@@ -617,121 +604,59 @@
 </div>
 
 <script>
+    // --- FAKTOR KONVERSI (SATUAN DASAR INTERNAL: kg & cm) ---
     const unitFactors = {
-        pressure: {
+        pressure: { // Untuk kohesi, q, q_ult, q_all. Konversi KE kg/cm2
             'kg/cm2': 1,
-            'ton/m2': 0.1, // 1000 kg/10000 cm2
-            'kN/m2': 0.101971621 // (1000 kg / 9.81 m/s2) / 10000 cm2
+            'ton/m2': 1000 / (100*100), // 0.1
+            'kN/m2': 1 / 9.81 * (1000 / (100*100)) // (kN to kgf) * (1/m2 to 1/cm2) = (1000/9.81) / 10000 = 101.9716 / 10000 = 0.01019716
+                                                // SEHARUSNYA: 1 kN/m2 = 1000 N/m2. 1 kgf ~ 9.81 N. Jadi 1 kN ~ 101.97 kgf.
+                                                // 1 kN/m2 = 101.97 kgf / (10000 cm2) = 0.010197 kgf/cm2
         },
-        density: {
+        density: { // Untuk gamma, gamma_sat, gamma_w. Konversi KE kg/cm3
             'kg/cm3': 1,
-            'ton/m3': 0.001, // 1000 kg / 1000000 cm3
-            'kN/m3': 0.000101971621, // (1000 kg / 9.81 m/s2) / 1000000 cm3
-            'lb/ft3': 0.00001601846 // 0.453592 kg / (30.48^3) cm3
+            'ton/m3': 1000 / (100*100*100), // 0.001
+            'kN/m3': 1 / 9.81 * (1000 / (100*100*100)), // 0.0001019716
+            'lb/ft3': 0.45359237 / Math.pow(30.48, 3) // 1 lb = 0.45359237 kg; 1 ft = 30.48 cm -> 0.00001601846
         },
-        length: {
+        length: { // Untuk B, Df, Dw. Konversi KE cm
             'm': 100,
             'cm': 1,
-            'ft': 30.48
+            'ft': 30.48 
         }
     };
 
-    const standardGammaWaterValues = { // Nilai standar gamma_w dalam berbagai satuan
+    // Nilai standar gamma_w dalam berbagai satuan (nilai input, bukan faktor konversi)
+    const standardGammaWaterValues = { 
         'kg/cm3': 0.001,
         'ton/m3': 1.0,
         'kN/m3': 9.81,
         'lb/ft3': 62.4
     };
 
-    const BASE_UNIT_PRESSURE = 'kg/cm2';
-    const BASE_UNIT_DENSITY = 'kg/cm3';
+    const BASE_UNIT_PRESSURE_TEXT = 'kg/cm²'; // Untuk display
+    const BASE_UNIT_DENSITY_TEXT = 'kg/cm³'; // Untuk display
+
     // Data tabel generalShearFactors dan localShearFactors (sama seperti sebelumnya)
     const generalShearFactors = [
-        { phi: 0, Nc: 5.70, Nq: 1.00, Ng: 0.00 }, { phi: 1, Nc: 6.00, Nq: 1.10, Ng: 0.01 },
-        { phi: 2, Nc: 6.30, Nq: 1.22, Ng: 0.04 }, { phi: 3, Nc: 6.62, Nq: 1.35, Ng: 0.06 },
-        { phi: 4, Nc: 6.97, Nq: 1.49, Ng: 0.10 }, { phi: 5, Nc: 7.34, Nq: 1.64, Ng: 0.14 },
-        { phi: 6, Nc: 7.73, Nq: 1.81, Ng: 0.20 }, { phi: 7, Nc: 8.15, Nq: 2.00, Ng: 0.27 },
-        { phi: 8, Nc: 8.60, Nq: 2.21, Ng: 0.35 }, { phi: 9, Nc: 9.09, Nq: 2.44, Ng: 0.44 },
-        { phi: 10, Nc: 9.61, Nq: 2.69, Ng: 0.56 }, { phi: 11, Nc: 10.16, Nq: 2.98, Ng: 0.69 },
-        { phi: 12, Nc: 10.76, Nq: 3.29, Ng: 0.85 }, { phi: 13, Nc: 11.41, Nq: 3.63, Ng: 1.04 },
-        { phi: 14, Nc: 12.11, Nq: 4.02, Ng: 1.26 }, { phi: 15, Nc: 12.86, Nq: 4.45, Ng: 1.52 },
-        { phi: 16, Nc: 13.68, Nq: 4.92, Ng: 1.82 }, { phi: 17, Nc: 14.60, Nq: 5.45, Ng: 2.18 },
-        { phi: 18, Nc: 15.12, Nq: 6.04, Ng: 2.59 }, { phi: 19, Nc: 16.56, Nq: 6.70, Ng: 3.07 },
-        { phi: 20, Nc: 17.69, Nq: 7.44, Ng: 3.64 }, { phi: 21, Nc: 18.92, Nq: 8.26, Ng: 4.31 },
-        { phi: 22, Nc: 20.27, Nq: 9.19, Ng: 5.09 }, { phi: 23, Nc: 21.75, Nq: 10.23, Ng: 6.00 },
-        { phi: 24, Nc: 23.36, Nq: 11.40, Ng: 7.08 }, { phi: 25, Nc: 25.13, Nq: 12.72, Ng: 8.34 },
-        { phi: 26, Nc: 27.09, Nq: 14.21, Ng: 9.84 }, { phi: 27, Nc: 29.24, Nq: 15.90, Ng: 11.60 },
-        { phi: 28, Nc: 31.61, Nq: 17.81, Ng: 13.70 }, { phi: 29, Nc: 34.24, Nq: 19.98, Ng: 16.18 },
-        { phi: 30, Nc: 37.16, Nq: 22.46, Ng: 19.13 }, { phi: 31, Nc: 40.41, Nq: 25.28, Ng: 22.65 },
-        { phi: 32, Nc: 44.04, Nq: 28.52, Ng: 26.87 }, { phi: 33, Nc: 48.09, Nq: 32.23, Ng: 31.94 },
-        { phi: 34, Nc: 52.64, Nq: 36.50, Ng: 38.04 }, { phi: 35, Nc: 57.75, Nq: 41.44, Ng: 45.41 },
-        { phi: 36, Nc: 63.53, Nq: 47.16, Ng: 54.36 }, { phi: 37, Nc: 70.01, Nq: 53.80, Ng: 65.27 },
-        { phi: 38, Nc: 77.50, Nq: 61.55, Ng: 78.61 }, { phi: 39, Nc: 85.97, Nq: 70.61, Ng: 95.03 },
-        { phi: 40, Nc: 95.66, Nq: 81.27, Ng: 115.31 }, { phi: 41, Nc: 106.81, Nq: 93.85, Ng: 140.51 },
-        { phi: 42, Nc: 119.67, Nq: 108.75, Ng: 171.99 }, { phi: 43, Nc: 134.58, Nq: 126.50, Ng: 211.56 },
-        { phi: 44, Nc: 151.95, Nq: 147.74, Ng: 261.60 }, { phi: 45, Nc: 172.28, Nq: 173.28, Ng: 325.34 },
-        { phi: 46, Nc: 196.22, Nq: 204.19, Ng: 407.11 }, { phi: 47, Nc: 224.55, Nq: 241.80, Ng: 512.84 },
-        { phi: 48, Nc: 258.28, Nq: 287.85, Ng: 650.67 }, { phi: 49, Nc: 298.71, Nq: 344.63, Ng: 831.99 },
-        { phi: 50, Nc: 347.50, Nq: 415.14, Ng: 1072.80 }
+        { phi: 0, Nc: 5.70, Nq: 1.00, Ng: 0.00 }, { phi: 1, Nc: 6.00, Nq: 1.10, Ng: 0.01 }, { phi: 2, Nc: 6.30, Nq: 1.22, Ng: 0.04 }, { phi: 3, Nc: 6.62, Nq: 1.35, Ng: 0.06 }, { phi: 4, Nc: 6.97, Nq: 1.49, Ng: 0.10 }, { phi: 5, Nc: 7.34, Nq: 1.64, Ng: 0.14 }, { phi: 6, Nc: 7.73, Nq: 1.81, Ng: 0.20 }, { phi: 7, Nc: 8.15, Nq: 2.00, Ng: 0.27 }, { phi: 8, Nc: 8.60, Nq: 2.21, Ng: 0.35 }, { phi: 9, Nc: 9.09, Nq: 2.44, Ng: 0.44 }, { phi: 10, Nc: 9.61, Nq: 2.69, Ng: 0.56 }, { phi: 11, Nc: 10.16, Nq: 2.98, Ng: 0.69 }, { phi: 12, Nc: 10.76, Nq: 3.29, Ng: 0.85 }, { phi: 13, Nc: 11.41, Nq: 3.63, Ng: 1.04 }, { phi: 14, Nc: 12.11, Nq: 4.02, Ng: 1.26 }, { phi: 15, Nc: 12.86, Nq: 4.45, Ng: 1.52 }, { phi: 16, Nc: 13.68, Nq: 4.92, Ng: 1.82 }, { phi: 17, Nc: 14.60, Nq: 5.45, Ng: 2.18 }, { phi: 18, Nc: 15.12, Nq: 6.04, Ng: 2.59 }, { phi: 19, Nc: 16.56, Nq: 6.70, Ng: 3.07 }, { phi: 20, Nc: 17.69, Nq: 7.44, Ng: 3.64 }, { phi: 21, Nc: 18.92, Nq: 8.26, Ng: 4.31 }, { phi: 22, Nc: 20.27, Nq: 9.19, Ng: 5.09 }, { phi: 23, Nc: 21.75, Nq: 10.23, Ng: 6.00 }, { phi: 24, Nc: 23.36, Nq: 11.40, Ng: 7.08 }, { phi: 25, Nc: 25.13, Nq: 12.72, Ng: 8.34 }, { phi: 26, Nc: 27.09, Nq: 14.21, Ng: 9.84 }, { phi: 27, Nc: 29.24, Nq: 15.90, Ng: 11.60 }, { phi: 28, Nc: 31.61, Nq: 17.81, Ng: 13.70 }, { phi: 29, Nc: 34.24, Nq: 19.98, Ng: 16.18 }, { phi: 30, Nc: 37.16, Nq: 22.46, Ng: 19.13 }, { phi: 31, Nc: 40.41, Nq: 25.28, Ng: 22.65 }, { phi: 32, Nc: 44.04, Nq: 28.52, Ng: 26.87 }, { phi: 33, Nc: 48.09, Nq: 32.23, Ng: 31.94 }, { phi: 34, Nc: 52.64, Nq: 36.50, Ng: 38.04 }, { phi: 35, Nc: 57.75, Nq: 41.44, Ng: 45.41 }, { phi: 36, Nc: 63.53, Nq: 47.16, Ng: 54.36 }, { phi: 37, Nc: 70.01, Nq: 53.80, Ng: 65.27 }, { phi: 38, Nc: 77.50, Nq: 61.55, Ng: 78.61 }, { phi: 39, Nc: 85.97, Nq: 70.61, Ng: 95.03 }, { phi: 40, Nc: 95.66, Nq: 81.27, Ng: 115.31 }, { phi: 41, Nc: 106.81, Nq: 93.85, Ng: 140.51 }, { phi: 42, Nc: 119.67, Nq: 108.75, Ng: 171.99 }, { phi: 43, Nc: 134.58, Nq: 126.50, Ng: 211.56 }, { phi: 44, Nc: 151.95, Nq: 147.74, Ng: 261.60 }, { phi: 45, Nc: 172.28, Nq: 173.28, Ng: 325.34 }, { phi: 46, Nc: 196.22, Nq: 204.19, Ng: 407.11 }, { phi: 47, Nc: 224.55, Nq: 241.80, Ng: 512.84 }, { phi: 48, Nc: 258.28, Nq: 287.85, Ng: 650.67 }, { phi: 49, Nc: 298.71, Nq: 344.63, Ng: 831.99 }, { phi: 50, Nc: 347.50, Nq: 415.14, Ng: 1072.80 }
     ];
     const localShearFactors = [
-        { phi: 0, NcP: 5.70, NqP: 1.00, NgP: 0.00 }, { phi: 1, NcP: 5.90, NqP: 1.07, NgP: 0.005 },
-        { phi: 2, NcP: 6.10, NqP: 1.14, NgP: 0.02 }, { phi: 3, NcP: 6.30, NqP: 1.22, NgP: 0.04 },
-        { phi: 4, NcP: 6.51, NqP: 1.30, NgP: 0.055 }, { phi: 5, NcP: 6.74, NqP: 1.39, NgP: 0.074 },
-        { phi: 6, NcP: 6.97, NqP: 1.49, NgP: 0.10 }, { phi: 7, NcP: 7.22, NqP: 1.59, NgP: 0.128 },
-        { phi: 8, NcP: 7.47, NqP: 1.70, NgP: 0.16 }, { phi: 9, NcP: 7.74, NqP: 1.82, NgP: 0.20 },
-        { phi: 10, NcP: 8.02, NqP: 1.94, NgP: 0.24 }, { phi: 11, NcP: 8.32, NqP: 2.08, NgP: 0.30 },
-        { phi: 12, NcP: 8.63, NqP: 2.22, NgP: 0.35 }, { phi: 13, NcP: 8.96, NqP: 2.38, NgP: 0.42 },
-        { phi: 14, NcP: 9.31, NqP: 2.55, NgP: 0.48 }, { phi: 15, NcP: 9.67, NqP: 2.73, NgP: 0.57 },
-        { phi: 16, NcP: 10.06, NqP: 2.92, NgP: 0.67 }, { phi: 17, NcP: 10.47, NqP: 3.13, NgP: 0.76 },
-        { phi: 18, NcP: 10.90, NqP: 3.36, NgP: 0.88 }, { phi: 19, NcP: 11.36, NqP: 3.61, NgP: 1.03 },
-        { phi: 20, NcP: 11.85, NqP: 3.88, NgP: 1.12 }, { phi: 21, NcP: 12.37, NqP: 4.17, NgP: 1.35 },
-        { phi: 22, NcP: 12.92, NqP: 4.48, NgP: 1.55 }, { phi: 23, NcP: 13.51, NqP: 4.82, NgP: 1.74 },
-        { phi: 24, NcP: 14.14, NqP: 5.20, NgP: 1.97 }, { phi: 25, NcP: 14.80, NqP: 5.60, NgP: 2.25 },
-        { phi: 26, NcP: 15.53, NqP: 6.05, NgP: 2.59 }, { phi: 27, NcP: 16.30, NqP: 6.54, NgP: 2.88 },
-        { phi: 28, NcP: 17.13, NqP: 7.07, NgP: 3.29 }, { phi: 29, NcP: 18.03, NqP: 7.66, NgP: 3.76 },
-        { phi: 30, NcP: 18.99, NqP: 8.31, NgP: 4.39 }, { phi: 31, NcP: 20.03, NqP: 9.03, NgP: 4.83 },
-        { phi: 32, NcP: 21.16, NqP: 9.82, NgP: 5.51 }, { phi: 33, NcP: 22.39, NqP: 10.69, NgP: 6.32 },
-        { phi: 34, NcP: 23.72, NqP: 11.67, NgP: 7.22 }, { phi: 35, NcP: 25.18, NqP: 12.75, NgP: 8.35 },
-        { phi: 36, NcP: 26.77, NqP: 13.97, NgP: 9.41 }, { phi: 37, NcP: 28.51, NqP: 15.32, NgP: 10.90 },
-        { phi: 38, NcP: 30.43, NqP: 16.85, NgP: 12.75 }, { phi: 39, NcP: 32.53, NqP: 18.56, NgP: 14.71 },
-        { phi: 40, NcP: 34.87, NqP: 20.50, NgP: 17.22 }, { phi: 41, NcP: 37.45, NqP: 22.70, NgP: 19.75 },
-        { phi: 42, NcP: 40.33, NqP: 25.21, NgP: 22.50 }, { phi: 43, NcP: 43.54, NqP: 28.06, NgP: 26.25 },
-        { phi: 44, NcP: 47.13, NqP: 31.34, NgP: 30.40 }, { phi: 45, NcP: 51.17, NqP: 35.11, NgP: 36.00 },
-        { phi: 46, NcP: 55.73, NqP: 39.48, NgP: 41.70 }, { phi: 47, NcP: 60.91, NqP: 44.45, NgP: 49.30 },
-        { phi: 48, NcP: 66.80, NqP: 50.46, NgP: 59.25 }, { phi: 49, NcP: 73.55, NqP: 57.41, NgP: 71.45 },
-        { phi: 50, NcP: 81.31, NqP: 65.60, NgP: 85.75 }
+        { phi: 0, NcP: 5.70, NqP: 1.00, NgP: 0.00 }, { phi: 1, NcP: 5.90, NqP: 1.07, NgP: 0.005 }, { phi: 2, NcP: 6.10, NqP: 1.14, NgP: 0.02 }, { phi: 3, NcP: 6.30, NqP: 1.22, NgP: 0.04 }, { phi: 4, NcP: 6.51, NqP: 1.30, NgP: 0.055 }, { phi: 5, NcP: 6.74, NqP: 1.39, NgP: 0.074 }, { phi: 6, NcP: 6.97, NqP: 1.49, NgP: 0.10 }, { phi: 7, NcP: 7.22, NqP: 1.59, NgP: 0.128 }, { phi: 8, NcP: 7.47, NqP: 1.70, NgP: 0.16 }, { phi: 9, NcP: 7.74, NqP: 1.82, NgP: 0.20 }, { phi: 10, NcP: 8.02, NqP: 1.94, NgP: 0.24 }, { phi: 11, NcP: 8.32, NqP: 2.08, NgP: 0.30 }, { phi: 12, NcP: 8.63, NqP: 2.22, NgP: 0.35 }, { phi: 13, NcP: 8.96, NqP: 2.38, NgP: 0.42 }, { phi: 14, NcP: 9.31, NqP: 2.55, NgP: 0.48 }, { phi: 15, NcP: 9.67, NqP: 2.73, NgP: 0.57 }, { phi: 16, NcP: 10.06, NqP: 2.92, NgP: 0.67 }, { phi: 17, NcP: 10.47, NqP: 3.13, NgP: 0.76 }, { phi: 18, NcP: 10.90, NqP: 3.36, NgP: 0.88 }, { phi: 19, NcP: 11.36, NqP: 3.61, NgP: 1.03 }, { phi: 20, NcP: 11.85, NqP: 3.88, NgP: 1.12 }, { phi: 21, NcP: 12.37, NqP: 4.17, NgP: 1.35 }, { phi: 22, NcP: 12.92, NqP: 4.48, NgP: 1.55 }, { phi: 23, NcP: 13.51, NqP: 4.82, NgP: 1.74 }, { phi: 24, NcP: 14.14, NqP: 5.20, NgP: 1.97 }, { phi: 25, NcP: 14.80, NqP: 5.60, NgP: 2.25 }, { phi: 26, NcP: 15.53, NqP: 6.05, NgP: 2.59 }, { phi: 27, NcP: 16.30, NqP: 6.54, NgP: 2.88 }, { phi: 28, NcP: 17.13, NqP: 7.07, NgP: 3.29 }, { phi: 29, NcP: 18.03, NqP: 7.66, NgP: 3.76 }, { phi: 30, NcP: 18.99, NqP: 8.31, NgP: 4.39 }, { phi: 31, NcP: 20.03, NqP: 9.03, NgP: 4.83 }, { phi: 32, NcP: 21.16, NqP: 9.82, NgP: 5.51 }, { phi: 33, NcP: 22.39, NqP: 10.69, NgP: 6.32 }, { phi: 34, NcP: 23.72, NqP: 11.67, NgP: 7.22 }, { phi: 35, NcP: 25.18, NqP: 12.75, NgP: 8.35 }, { phi: 36, NcP: 26.77, NqP: 13.97, NgP: 9.41 }, { phi: 37, NcP: 28.51, NqP: 15.32, NgP: 10.90 }, { phi: 38, NcP: 30.43, NqP: 16.85, NgP: 12.75 }, { phi: 39, NcP: 32.53, NqP: 18.56, NgP: 14.71 }, { phi: 40, NcP: 34.87, NqP: 20.50, NgP: 17.22 }, { phi: 41, NcP: 37.45, NqP: 22.70, NgP: 19.75 }, { phi: 42, NcP: 40.33, NqP: 25.21, NgP: 22.50 }, { phi: 43, NcP: 43.54, NqP: 28.06, NgP: 26.25 }, { phi: 44, NcP: 47.13, NqP: 31.34, NgP: 30.40 }, { phi: 45, NcP: 51.17, NqP: 35.11, NgP: 36.00 }, { phi: 46, NcP: 55.73, NqP: 39.48, NgP: 41.70 }, { phi: 47, NcP: 60.91, NqP: 44.45, NgP: 49.30 }, { phi: 48, NcP: 66.80, NqP: 50.46, NgP: 59.25 }, { phi: 49, NcP: 73.55, NqP: 57.41, NgP: 71.45 }, { phi: 50, NcP: 81.31, NqP: 65.60, NgP: 85.75 }
     ];
 
-    // Fungsi helper
-    function getElementValueWithUnit(inputId, unitId, unitType) {
-        const valueStr = document.getElementById(inputId).value;
-        const selectedUnit = document.getElementById(unitId).value;
-        
-        if (valueStr === "" && inputId !== 'gammaAir') return null;
-        if (inputId === 'gammaAir' && valueStr === "") return null; // gammaAir juga harus diisi
-        
-        const value = parseFloat(valueStr);
-        if (isNaN(value)) return NaN; 
-
-        if (unitType === 'pressure') return value * unitFactors.pressure[selectedUnit];
-        if (unitType === 'density') return value * unitFactors.density[selectedUnit];
-        if (unitType === 'length') return value * unitFactors.length[selectedUnit];
-        return value;
-    }
-
+    // Fungsi helper (displayMessage, clearMessages, interpolate, toggleHelpModal, closeHelpModalOutside - sama seperti sebelumnya)
+    // ... (kode fungsi helper ini disalin dari versi sebelumnya)
     function displayMessage(message, type = 'info') {
         const messageArea = document.getElementById('messageArea');
         const messageClass = type === 'error' ? 'error-message' : 'info-message';
         messageArea.innerHTML = `<div class="${messageClass}">${message}</div>`;
     }
-    
     function clearMessages() {
         document.getElementById('messageArea').innerHTML = '';
         document.getElementById('formulaDisplayContainer').style.display = 'none';
         document.getElementById('formulaText').innerHTML = '';
     }
-    
     function interpolate(phi, factorTable, factorKeyNc, factorKeyNq, factorKeyNg) {
         phi = Math.max(0, Math.min(50, phi)); 
         let lower = null; let upper = null;
@@ -748,31 +673,29 @@
         const calc = (key) => lower[key] + ( (phi - lower.phi) * (upper[key] - lower[key]) ) / (upper.phi - lower.phi);
         return { Nc: calc(factorKeyNc), Nq: calc(factorKeyNq), Ng: calc(factorKeyNg) };
     }
-
     function toggleHelpModal() {
         const modal = document.getElementById('helpModal');
         modal.style.display = (modal.style.display === 'flex') ? 'none' : 'flex';
     }
-
     function closeHelpModalOutside(event) {
         if (event.target === document.getElementById('helpModal')) {
             document.getElementById('helpModal').style.display = 'none';
         }
     }
 
-    let q_ult_base_unit_value = null; // Variabel global untuk menyimpan q_ult dalam satuan dasar
-    let q_all_base_unit_value = null; // Variabel global untuk menyimpan q_all dalam satuan dasar
+    let q_ult_base_unit_value = null; 
+    let q_all_base_unit_value = null; 
 
     function updateGammaAirValueAndSyncUnits(changedUnitSelectId) {
         const selectedUnit = document.getElementById(changedUnitSelectId).value;
-        
-        // Update nilai gammaAir
         const gammaAirInput = document.getElementById('gammaAir');
         if (standardGammaWaterValues[selectedUnit]) {
-            gammaAirInput.value = standardGammaWaterValues[selectedUnit].toFixed(selectedUnit === 'kg/cm3' || selectedUnit === 'lb/ft3' ? (selectedUnit === 'lb/ft3' ? 1:3) : 2); // Sesuaikan desimal
+            let decimals = 2; // Default decimals
+            if (selectedUnit === 'kg/cm3') decimals = 3;
+            else if (selectedUnit === 'lb/ft3') decimals = 1;
+            gammaAirInput.value = standardGammaWaterValues[selectedUnit].toFixed(decimals);
         }
 
-        // Sinkronisasi unit dropdown density lainnya
         const allDensityUnitSelects = document.querySelectorAll('.density-unit-sync');
         allDensityUnitSelects.forEach(select => {
             if (select.id !== changedUnitSelectId) {
@@ -781,18 +704,15 @@
         });
     }
     
-    // Event listener untuk sinkronisasi unit density dan update gammaAir
     document.querySelectorAll('.density-unit-sync').forEach(select => {
         select.addEventListener('change', function() {
             updateGammaAirValueAndSyncUnits(this.id);
         });
     });
     
-    // Panggil sekali saat load untuk set nilai gammaAir awal berdasarkan unit default
     document.addEventListener('DOMContentLoaded', () => {
-        updateGammaAirValueAndSyncUnits('gammaAirUnit'); // Gunakan gammaAirUnit sebagai referensi awal
+        updateGammaAirValueAndSyncUnits('gammaAirUnit'); 
         
-        // Tambahkan event listener untuk output unit selectors
         document.getElementById('qultUnitOutput').addEventListener('change', function() {
             if (q_ult_base_unit_value !== null) {
                 const converted_q_ult = q_ult_base_unit_value / unitFactors.pressure[this.value];
@@ -807,44 +727,45 @@
         });
     });
 
-
     function hitungDayaDukung() {
         clearMessages();
-        q_ult_base_unit_value = null; // Reset nilai global
+        q_ult_base_unit_value = null; 
         q_all_base_unit_value = null;
 
         const tipePondasi = document.getElementById('tipePondasi').value;
         const tipeKeruntuhan = document.getElementById('tipeKeruntuhan').value;
         
-        const c_cm = getElementValueWithUnit('kohesi', 'kohesiUnit', 'pressure'); 
-        const phi_input = parseFloat(document.getElementById('sudutGeser').value); 
-        const gamma_tanah_cm = getElementValueWithUnit('gammaTanah', 'gammaTanahUnit', 'density'); 
-        const B_cm = getElementValueWithUnit('lebarPondasi', 'lebarPondasiUnit', 'length'); 
-        const Df_cm = getElementValueWithUnit('kedalamanPondasi', 'kedalamanPondasiUnit', 'length'); 
+        // Ambil nilai input dan konversi ke satuan dasar (kg, cm)
+        const c_kg_cm2 = getElementValueWithUnit('kohesi', 'kohesiUnit', 'pressure');
+        const phi_input = parseFloat(document.getElementById('sudutGeser').value);
+        const gamma_tanah_kg_cm3 = getElementValueWithUnit('gammaTanah', 'gammaTanahUnit', 'density');
+        const B_cm = getElementValueWithUnit('lebarPondasi', 'lebarPondasiUnit', 'length');
+        const Df_cm = getElementValueWithUnit('kedalamanPondasi', 'kedalamanPondasiUnit', 'length');
         const SF_input = parseFloat(document.getElementById('faktorKeamanan').value);
         
         let Dw_cm_val_str = document.getElementById('kedalamanMAT').value;
-        let gamma_sat_cm_val_str = document.getElementById('gammaSat').value;
-        const gamma_w_cm = getElementValueWithUnit('gammaAir', 'gammaAirUnit', 'density'); 
+        let gamma_sat_kg_cm3_val_str = document.getElementById('gammaSat').value;
+        const gamma_w_kg_cm3 = getElementValueWithUnit('gammaAir', 'gammaAirUnit', 'density');
 
         let Dw_cm = Dw_cm_val_str === "" ? null : getElementValueWithUnit('kedalamanMAT', 'kedalamanMATUnit', 'length');
-        let gamma_sat_cm = gamma_sat_cm_val_str === "" ? null : getElementValueWithUnit('gammaSat', 'gammaSatUnit', 'density');
+        let gamma_sat_kg_cm3 = gamma_sat_kg_cm3_val_str === "" ? null : getElementValueWithUnit('gammaSat', 'gammaSatUnit', 'density');
 
+        // Validasi Input
         const inputsToValidate = {
-            "Kohesi Tanah (c)": c_cm, "Sudut Geser Dalam (φ)": phi_input, "Berat Vol. Tanah (γ)": gamma_tanah_cm,
-            "Lebar/Diameter Pondasi (B)": B_cm, "Kedalaman Dasar Pondasi (Df)": Df_cm,
-            "Faktor Keamanan (SF)": SF_input, "Berat Volume Air (γw)": gamma_w_cm
+            "Kohesi Tanah (c)": c_kg_cm2, "Sudut Geser Dalam (φ)": phi_input, 
+            "Berat Vol. Tanah (γ)": gamma_tanah_kg_cm3, "Lebar/Diameter Pondasi (B)": B_cm,
+            "Kedalaman Dasar Pondasi (Df)": Df_cm, "Faktor Keamanan (SF)": SF_input,
+            "Berat Volume Air (γw)": gamma_w_kg_cm3
         };
-
         for (const label in inputsToValidate) {
             if (inputsToValidate[label] === null || isNaN(inputsToValidate[label])) {
                 displayMessage(`Error: Input "${label}" tidak valid atau kosong.`, 'error'); return;
             }
         }
         
-        const matConsidered = (Dw_cm !== null && gamma_sat_cm !== null);
-        if (Dw_cm_val_str !== "" && gamma_sat_cm_val_str === "") { displayMessage("Error: Jika Kedalaman MAT (Dw) diisi, maka Berat Volume Jenuh Tanah (γsat) juga harus diisi.", 'error'); return; }
-        if (Dw_cm_val_str === "" && gamma_sat_cm_val_str !== "") { displayMessage("Error: Jika Berat Volume Jenuh Tanah (γsat) diisi, maka Kedalaman MAT (Dw) juga harus diisi.", 'error'); return; }
+        const matConsidered = (Dw_cm !== null && gamma_sat_kg_cm3 !== null);
+        if (Dw_cm_val_str !== "" && gamma_sat_kg_cm3_val_str === "") { displayMessage("Error: Jika Kedalaman MAT (Dw) diisi, maka Berat Volume Jenuh Tanah (γsat) juga harus diisi.", 'error'); return; }
+        if (Dw_cm_val_str === "" && gamma_sat_kg_cm3_val_str !== "") { displayMessage("Error: Jika Berat Volume Jenuh Tanah (γsat) diisi, maka Kedalaman MAT (Dw) juga harus diisi.", 'error'); return; }
         
         if (phi_input < 0 || phi_input > 50) { displayMessage("Error: Sudut geser (φ) harus antara 0 dan 50 derajat.", 'error'); return; }
         if (SF_input <= 0) { displayMessage("Error: Faktor Keamanan (SF) harus lebih besar dari 0.", 'error'); return; }
@@ -852,26 +773,26 @@
         
         if(matConsidered) {
             if (Dw_cm < 0) { displayMessage("Error: Kedalaman MAT (Dw) tidak boleh negatif.", 'error'); return; }
-            if (gamma_sat_cm <= 0 ) {displayMessage("Error: Nilai γsat harus positif jika diisi.", 'error'); return;}
-            if (gamma_sat_cm < gamma_w_cm) {displayMessage("Error: Gamma jenuh (γsat) harus lebih besar atau sama dengan gamma air (γw).", 'error'); return;}
+            if (gamma_sat_kg_cm3 <= 0 ) {displayMessage("Error: Nilai γsat harus positif jika diisi.", 'error'); return;}
+            if (gamma_sat_kg_cm3 < gamma_w_kg_cm3) {displayMessage("Error: Gamma jenuh (γsat) harus lebih besar atau sama dengan gamma air (γw).", 'error'); return;}
         }
 
         const phi = phi_input; 
-        const gamma = gamma_tanah_cm; 
+        const gamma = gamma_tanah_kg_cm3; 
         const SF = SF_input;
         
-        let gamma_prima = 0;
+        let gamma_prima = 0; // dalam kg/cm3
         if (matConsidered) {
-            gamma_prima = gamma_sat_cm - gamma_w_cm; 
+            gamma_prima = gamma_sat_kg_cm3 - gamma_w_kg_cm3; 
             document.getElementById('hasilGammaPrima').textContent = gamma_prima.toFixed(4);
-            document.getElementById('unitOutputGammaPrima').textContent = BASE_UNIT_DENSITY.replace('kg/cm3', 'kg/cm³');
+            document.getElementById('unitOutputGammaPrima').textContent = BASE_UNIT_DENSITY_TEXT;
         } else {
             document.getElementById('hasilGammaPrima').textContent = "-";
             document.getElementById('unitOutputGammaPrima').textContent = "";
         }
 
         let factors;
-        let c_eff = c_cm; 
+        let c_eff = c_kg_cm2; // kg/cm2
         let Nc_symbol = "N<sub>c</sub>", Nq_symbol = "N<sub>q</sub>", Ng_symbol = "N<sub>γ</sub>", c_symbol = "c";
         document.getElementById('cPrimaRow').style.display = 'none';
 
@@ -879,12 +800,11 @@
             factors = interpolate(phi, generalShearFactors, 'Nc', 'Nq', 'Ng');
         } else { 
             factors = interpolate(phi, localShearFactors, 'NcP', 'NqP', 'NgP');
-            c_eff = (2/3) * c_cm;
+            c_eff = (2/3) * c_kg_cm2;
             Nc_symbol = "N'<sub>c</sub>"; Nq_symbol = "N'<sub>q</sub>"; Ng_symbol = "N'<sub>γ</sub>"; c_symbol = "c'";
             document.getElementById('hasilCprime').textContent = c_eff.toFixed(3);
-            document.getElementById('unitOutputCprime').textContent = BASE_UNIT_PRESSURE.replace('kg/cm2', 'kg/cm²');
-            const cPrimaRow = document.getElementById('cPrimaRow');
-            cPrimaRow.style.display = 'flex'; 
+            document.getElementById('unitOutputCprime').textContent = BASE_UNIT_PRESSURE_TEXT;
+            document.getElementById('cPrimaRow').style.display = 'flex'; 
         }
 
         if (!factors || factors.Nc === null || isNaN(factors.Nc)) {
@@ -894,8 +814,8 @@
         }
         const { Nc, Nq, Ng } = factors;
 
-        let q_adjusted_for_MAT = gamma * Df_cm; 
-        let gamma_effective_for_MAT = gamma; 
+        let q_adjusted_for_MAT = gamma * Df_cm; // Default kg/cm2
+        let gamma_effective_for_MAT = gamma; // Default kg/cm3
 
         if (matConsidered) {
             if (Dw_cm < Df_cm) { 
@@ -916,11 +836,11 @@
         }
         
         document.getElementById('hasilQadj').textContent = q_adjusted_for_MAT.toFixed(3);
-        document.getElementById('unitOutputQadj').textContent = BASE_UNIT_PRESSURE.replace('kg/cm2', 'kg/cm²');
+        document.getElementById('unitOutputQadj').textContent = BASE_UNIT_PRESSURE_TEXT;
         document.getElementById('hasilGammaEff').textContent = gamma_effective_for_MAT.toFixed(4);
-        document.getElementById('unitOutputGammaEff').textContent = BASE_UNIT_DENSITY.replace('kg/cm3', 'kg/cm³');
+        document.getElementById('unitOutputGammaEff').textContent = BASE_UNIT_DENSITY_TEXT;
 
-        let q_ult;
+        let q_ult; // Akan dalam kg/cm2
         let formulaString = "";
         let sc_val = 1, sq_val = 1, sg_val = 1;
 
@@ -947,20 +867,19 @@
             }
         }
 
-        q_ult_base_unit_value = q_ult; // Simpan dalam satuan dasar (kg/cm2)
+        q_ult_base_unit_value = q_ult; 
         const q_all = q_ult / SF;
-        q_all_base_unit_value = q_all; // Simpan dalam satuan dasar (kg/cm2)
+        q_all_base_unit_value = q_all; 
 
-        // Tampilkan hasil q_ult dan q_all dalam satuan yang dipilih di dropdown output
-        const selectedQultUnit = document.getElementById('qultUnitOutput').value;
-        const selectedQallUnit = document.getElementById('qallUnitOutput').value;
+        const selectedQultUnitOutput = document.getElementById('qultUnitOutput').value;
+        const selectedQallUnitOutput = document.getElementById('qallUnitOutput').value;
 
         document.getElementById('hasilNc').textContent = Nc.toFixed(2);
         document.getElementById('hasilNq').textContent = Nq.toFixed(2);
         document.getElementById('hasilNgamma').textContent = Ng.toFixed(3);
         
-        document.getElementById('hasilQult').textContent = (q_ult_base_unit_value / unitFactors.pressure[selectedQultUnit]).toFixed(3);
-        document.getElementById('hasilQall').textContent = (q_all_base_unit_value / unitFactors.pressure[selectedQallUnit]).toFixed(3);
+        document.getElementById('hasilQult').textContent = (q_ult_base_unit_value / unitFactors.pressure[selectedQultUnitOutput]).toFixed(3);
+        document.getElementById('hasilQall').textContent = (q_all_base_unit_value / unitFactors.pressure[selectedQallUnitOutput]).toFixed(3);
 
         document.getElementById('formulaText').innerHTML = formulaString.replace(/\*/g, '×');
         document.getElementById('formulaDisplayContainer').style.display = 'block';
