@@ -450,17 +450,6 @@
                 <span id="hasilNgamma" class="value">-</span>
             </div>
         </div>
-        <div class="result-entry" id="cPrimaRow" style="display:none;">
-            <div class="result-item-label">Kohesi Modifikasi (c'):</div>
-            <div class="result-item-value-unit-container">
-                <span id="hasilCprime" class="value">-</span>
-                <select id="cPrimaUnitOutput" class="result-unit-select-output unit-sync" data-unit-type="pressure" data-sync-group="output">
-                    <option value="kg/cm2">kg/cm²</option>
-                    <option value="ton/m2">ton/m²</option>
-                    <option value="kN/m2">kN/m² (kPa)</option>
-                </select>
-            </div>
-        </div>
         <div class="result-entry">
             <div class="result-item-label">Berat Vol. Efektif (γ') (Apung):</div>
             <div class="result-item-value-unit-container">
@@ -554,20 +543,16 @@
         </div>
         <div class="modal-section">
             <h4>Keruntuhan Geser Lokal (Local Shear Failure)</h4>
-            <p>Terjadi pada tanah lepas atau lunak. Parameter tanah yang dimodifikasi digunakan:</p>
-            <ul>
-                <li>Kohesi modifikasi: <div class="formula">c' = (2/3)·c</div></li>
-                <li>Faktor daya dukung yang digunakan adalah N'<sub>c</sub>, N'<sub>q</sub>, N'<sub>γ</sub> (dari tabel Terzaghi untuk local shear, berdasarkan φ asli).</li>
-            </ul>
-            <p>Formula daya dukung ultimit (q<sub>ult</sub>) Terzaghi untuk Local Shear:</p>
+            <p>Terjadi pada tanah lepas atau lunak. Persamaan daya dukung ultimit (q<sub>u</sub>) Terzaghi:</p>
              <ul>
                 <li><strong>Pondasi Lajur (Strip):</strong> 
-                    <div class="formula">q<sub>ult</sub> = c'·N'<sub>c</sub> + q·N'<sub>q</sub> + 0.5·γ<sub>eff</sub>·B·N'<sub>γ</sub></div></li>
+                    <div class="formula">q<sub>u</sub> = (2/3)c·N'<sub>c</sub> + q·N'<sub>q</sub> + 0.5·γ<sub>eff</sub>·B·N'<sub>γ</sub></div></li>
                 <li><strong>Pondasi Bujursangkar (Square):</strong> 
-                    <div class="formula">q<sub>ult</sub> = 0.867·c'·N'<sub>c</sub> + q·N'<sub>q</sub> + 0.4·γ<sub>eff</sub>·B·N'<sub>γ</sub></div></li>
+                    <div class="formula">q<sub>u</sub> = 0.867·c·N'<sub>c</sub> + q·N'<sub>q</sub> + 0.4·γ<sub>eff</sub>·B·N'<sub>γ</sub></div></li>
                 <li><strong>Pondasi Lingkaran (Circular):</strong> 
-                    <div class="formula">q<sub>ult</sub> = 0.867·c'·N'<sub>c</sub> + q·N'<sub>q</sub> + 0.3·γ<sub>eff</sub>·B·N'<sub>γ</sub></div></li>
+                    <div class="formula">q<sub>u</sub> = 0.867·c·N'<sub>c</sub> + q·N'<sub>q</sub> + 0.3·γ<sub>eff</sub>·B·N'<sub>γ</sub></div></li>
             </ul>
+             <p>Faktor daya dukung yang digunakan adalah N'<sub>c</sub>, N'<sub>q</sub>, N'<sub>γ</sub> dari tabel Terzaghi untuk local shear, berdasarkan φ asli.</p>
         </div>
         <div class="modal-section">
             <h4>Pengaruh Muka Air Tanah (MAT)</h4>
@@ -624,10 +609,9 @@
     const localShearFactors = [
         { phi: 0, NcP: 5.70, NqP: 1.00, NgP: 0.00 }, { phi: 1, NcP: 5.90, NqP: 1.07, NgP: 0.005 }, { phi: 2, NcP: 6.10, NqP: 1.14, NgP: 0.02 }, { phi: 3, NcP: 6.30, NqP: 1.22, NgP: 0.04 }, { phi: 4, NcP: 6.51, NqP: 1.30, NgP: 0.055 }, { phi: 5, NcP: 6.74, NqP: 1.39, NgP: 0.074 }, { phi: 6, NcP: 6.97, NqP: 1.49, NgP: 0.10 }, { phi: 7, NcP: 7.22, NqP: 1.59, NgP: 0.128 }, { phi: 8, NcP: 7.47, NqP: 1.70, NgP: 0.16 }, { phi: 9, NcP: 7.74, NqP: 1.82, NgP: 0.20 }, { phi: 10, NcP: 8.02, NqP: 1.94, NgP: 0.24 }, { phi: 11, NcP: 8.32, NqP: 2.08, NgP: 0.30 }, { phi: 12, NcP: 8.63, NqP: 2.22, NgP: 0.35 }, { phi: 13, NcP: 8.96, NqP: 2.38, NgP: 0.42 }, { phi: 14, NcP: 9.31, NqP: 2.55, NgP: 0.48 }, { phi: 15, NcP: 9.67, NqP: 2.73, NgP: 0.57 }, { phi: 16, NcP: 10.06, NqP: 2.92, NgP: 0.67 }, { phi: 17, NcP: 10.47, NqP: 3.13, NgP: 0.76 }, { phi: 18, NcP: 10.90, NqP: 3.36, NgP: 0.88 }, { phi: 19, NcP: 11.36, NqP: 3.61, NgP: 1.03 }, { phi: 20, NcP: 11.85, NqP: 3.88, NgP: 1.12 }, { phi: 21, NcP: 12.37, NqP: 4.17, NgP: 1.35 }, { phi: 22, NcP: 12.92, NqP: 4.48, NgP: 1.55 }, { phi: 23, NcP: 13.51, NqP: 4.82, NgP: 1.74 }, { phi: 24, NcP: 14.14, NqP: 5.20, NgP: 1.97 }, { phi: 25, NcP: 14.80, NqP: 5.60, NgP: 2.25 }, { phi: 26, NcP: 15.53, NqP: 6.05, NgP: 2.59 }, { phi: 27, NcP: 16.30, NqP: 6.54, NgP: 2.88 }, { phi: 28, NcP: 17.13, NqP: 7.07, NgP: 3.29 }, { phi: 29, NcP: 18.03, NqP: 7.66, NgP: 3.76 }, { phi: 30, NcP: 18.99, NqP: 8.31, NgP: 4.39 }, { phi: 31, NcP: 20.03, NqP: 9.03, NgP: 4.83 }, { phi: 32, NcP: 21.16, NqP: 9.82, NgP: 5.51 }, { phi: 33, NcP: 22.39, NqP: 10.69, NgP: 6.32 }, { phi: 34, NcP: 23.72, NqP: 11.67, NgP: 7.22 }, { phi: 35, NcP: 25.18, NqP: 12.75, NgP: 8.35 }, { phi: 36, NcP: 26.77, NqP: 13.97, NgP: 9.41 }, { phi: 37, NcP: 28.51, NqP: 15.32, NgP: 10.90 }, { phi: 38, NcP: 30.43, NqP: 16.85, NgP: 12.75 }, { phi: 39, NcP: 32.53, NqP: 18.56, NgP: 14.71 }, { phi: 40, NcP: 34.87, NqP: 20.50, NgP: 17.22 }, { phi: 41, NcP: 37.45, NqP: 22.70, NgP: 19.75 }, { phi: 42, NcP: 40.33, NqP: 25.21, NgP: 22.50 }, { phi: 43, NcP: 43.54, NqP: 28.06, NgP: 26.25 }, { phi: 44, NcP: 47.13, NqP: 31.34, NgP: 30.40 }, { phi: 45, NcP: 51.17, NqP: 35.11, NgP: 36.00 }, { phi: 46, NcP: 55.73, NqP: 39.48, NgP: 41.70 }, { phi: 47, NcP: 60.91, NqP: 44.45, NgP: 49.30 }, { phi: 48, NcP: 66.80, NqP: 50.46, NgP: 59.25 }, { phi: 49, NcP: 73.55, NqP: 57.41, NgP: 71.45 }, { phi: 50, NcP: 81.31, NqP: 65.60, NgP: 85.75 }
     ];
-    
+
     // --- JavaScript Functions ---
-    // Fungsi-fungsi helper (displayMessage, clearMessages, interpolate, toggleHelpModal, closeHelpModalOutside - sama seperti sebelumnya)
-    // ... (kode fungsi helper ini disalin dari versi sebelumnya)
+    // Fungsi-fungsi helper (sama seperti sebelumnya)
     function displayMessage(message, type = 'info') {
         const messageArea = document.getElementById('messageArea');
         const messageClass = type === 'error' ? 'error-message' : 'info-message';
@@ -670,7 +654,6 @@
     let gamma_prima_base_unit_value = null;
     let q_adjusted_base_unit_value = null;
     let gamma_effective_base_unit_value = null;
-    let c_eff_base_unit_value = null;
 
     function getElementValueWithUnit(inputId, unitId, unitType) {
         const valueStr = document.getElementById(inputId).value;
@@ -692,25 +675,24 @@
     function handleUnitChange(event) {
         const changedSelect = event.target;
         const unitType = changedSelect.dataset.unitType;
-        const syncGroup = changedSelect.dataset.syncGroup;
+        const syncGroup = changedSelect.dataset.syncGroup; 
         const newUnit = changedSelect.value;
         const oldUnit = changedSelect.dataset.oldUnit;
 
         if (newUnit === oldUnit) return; 
 
-        // Tentukan selector berdasarkan grup sinkronisasi (input atau output)
+        // Tentukan selector berdasarkan grup sinkronisasi dan tipe unit
         const selector = `.unit-sync[data-unit-type="${unitType}"][data-sync-group="${syncGroup}"]`;
         const allSelectsOfType = document.querySelectorAll(selector);
         
         allSelectsOfType.forEach(select => {
-            const inputId = select.id.replace('Unit', '');
-            const inputField = document.getElementById(inputId);
-            
-            if (inputField && !inputField.readOnly && inputField.value !== "") {
-                const currentValue = parseFloat(inputField.value);
-                if (!isNaN(currentValue)) {
-                    // Konversi nilai hanya jika ini adalah event dari grup 'input'
-                    if (syncGroup === 'input') {
+            if (syncGroup === 'input') {
+                const inputId = select.id.replace('Unit', '');
+                const inputField = document.getElementById(inputId);
+                
+                if (inputField && !inputField.readOnly && inputField.value !== "") {
+                    const currentValue = parseFloat(inputField.value);
+                    if (!isNaN(currentValue)) {
                         const valueInBaseUnit = currentValue * unitFactors[unitType][oldUnit];
                         const newValue = valueInBaseUnit / unitFactors[unitType][newUnit];
                         inputField.value = parseFloat(newValue.toPrecision(5));
@@ -718,13 +700,12 @@
                 }
             }
             select.value = newUnit; 
-            select.dataset.oldUnit = newUnit; // Update oldUnit untuk perubahan berikutnya
+            select.dataset.oldUnit = newUnit; 
         });
 
-        // Update gammaAir dan placeholder secara khusus jika ini perubahan dari grup 'input'
+        // Update gammaAir dan placeholder jika perubahan dari grup 'input'
         if (syncGroup === 'input') {
             if (unitType === 'density') {
-                 // Update gammaAir
                 const gammaAirInput = document.getElementById('gammaAir');
                 if (standardGammaWaterValues[newUnit]) {
                     let decimals = 2;
@@ -733,11 +714,10 @@
                     gammaAirInput.value = standardGammaWaterValues[newUnit].toFixed(decimals);
                 }
             }
-             // Update all placeholders
             updatePlaceholders();
         }
 
-        // Jika ini perubahan dari grup 'output', panggil update nilai hasil
+        // Jika perubahan dari grup 'output', update nilai hasil
         if (syncGroup === 'output') {
             updateAllOutputValues();
         }
@@ -749,7 +729,7 @@
             const unitSelect = document.getElementById(inputId + 'Unit');
             if(inputField && unitSelect) {
                 const currentUnit = unitSelect.value;
-                inputField.placeholder = placeholderExamples[inputId][currentUnit] || "";
+                inputField.placeholder = `e.g., ${placeholderExamples[inputId][currentUnit] || ""}`;
             }
         }
     }
@@ -758,9 +738,6 @@
         const pressureUnit = document.getElementById('qultUnitOutput').value;
         const densityUnit = document.getElementById('gammaPrimaUnitOutput').value;
 
-        if (c_eff_base_unit_value !== null && document.getElementById('cPrimaRow').style.display !== 'none') {
-            document.getElementById('hasilCprime').textContent = (c_eff_base_unit_value / unitFactors.pressure[pressureUnit]).toFixed(3);
-        }
         if (gamma_prima_base_unit_value !== null) {
             document.getElementById('hasilGammaPrima').textContent = (gamma_prima_base_unit_value / unitFactors.density[densityUnit]).toFixed(4);
         }
@@ -778,7 +755,6 @@
         }
     }
 
-
     document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('mainCalculateButton').addEventListener('click', hitungDayaDukung);
 
@@ -788,15 +764,20 @@
             select.addEventListener('focus', function() { this.dataset.oldUnit = this.value; });
             select.addEventListener('change', handleUnitChange);
         });
-
-        // Panggil sekali untuk set nilai gammaAir awal dan placeholder
+        
+        // Panggil sekali untuk set nilai gammaAir awal dan semua placeholder
         const gammaTanahUnitSelect = document.getElementById('gammaTanahUnit');
-        handleUnitChange({target: gammaTanahUnitSelect});
+        handleUnitChange({target: gammaTanahUnitSelect}); 
+        const lebarPondasiUnitSelect = document.getElementById('lebarPondasiUnit');
+        handleUnitChange({target: lebarPondasiUnitSelect}); 
+        const kohesiUnitSelect = document.getElementById('kohesiUnit');
+        handleUnitChange({target: kohesiUnitSelect}); 
+
     });
 
     function hitungDayaDukung() {
         clearMessages();
-        [q_ult_base_unit_value, q_all_base_unit_value, gamma_prima_base_unit_value, q_adjusted_base_unit_value, gamma_effective_base_unit_value, c_eff_base_unit_value] = Array(6).fill(null);
+        [q_ult_base_unit_value, q_all_base_unit_value, gamma_prima_base_unit_value, q_adjusted_base_unit_value, gamma_effective_base_unit_value] = Array(5).fill(null);
 
         const tipePondasi = document.getElementById('tipePondasi').value;
         const tipeKeruntuhan = document.getElementById('tipeKeruntuhan').value;
@@ -815,6 +796,7 @@
         let Dw_cm = Dw_cm_val_str === "" ? null : getElementValueWithUnit('kedalamanMAT', 'kedalamanMATUnit', 'length');
         let gamma_sat_kg_cm3 = gamma_sat_kg_cm3_val_str === "" ? null : getElementValueWithUnit('gammaSat', 'gammaSatUnit', 'density');
 
+        // Validasi
         const inputsToValidate = {
             "Kohesi Tanah (c)": c_kg_cm2, "Sudut Geser Dalam (φ)": phi_input, 
             "Berat Vol. Tanah (γ)": gamma_tanah_kg_cm3, "Lebar/Diameter Pondasi (B)": B_cm,
@@ -844,21 +826,21 @@
         
         if (matConsidered) {
             gamma_prima_base_unit_value = gamma_sat_kg_cm3 - gamma_w_kg_cm3;
+        } else {
+            document.getElementById('hasilGammaPrima').textContent = "-";
         }
+        
 
         let factors;
-        c_eff_base_unit_value = c_kg_cm2; 
+        let c_eff = c_kg_cm2; 
         let Nc_symbol = "N<sub>c</sub>", Nq_symbol = "N<sub>q</sub>", Ng_symbol = "N<sub>γ</sub>", c_symbol = "c";
-        document.getElementById('cPrimaRow').style.display = 'none';
-
+        
         if (tipeKeruntuhan === 'umum') {
             factors = interpolate(phi, generalShearFactors, 'Nc', 'Nq', 'Ng');
         } else { 
             factors = interpolate(phi, localShearFactors, 'NcP', 'NqP', 'NgP');
-            c_eff_base_unit_value = (2/3) * c_kg_cm2;
-            Nc_symbol = "N'<sub>c</sub>"; Nq_symbol = "N'<sub>q</sub>"; Ng_symbol = "N'<sub>γ</sub>"; c_symbol = "c'";
-            const cPrimaRow = document.getElementById('cPrimaRow');
-            cPrimaRow.style.display = 'flex'; 
+            // Kohesi efektif TIDAK dihitung terpisah, tapi sebagai koefisien di formula q_ult
+            Nc_symbol = "N'<sub>c</sub>"; Nq_symbol = "N'<sub>q</sub>"; Ng_symbol = "N'<sub>γ</sub>"; c_symbol = "c";
         }
 
         if (!factors || factors.Nc === null || isNaN(factors.Nc)) {
@@ -894,28 +876,27 @@
         
         let q_ult; 
         let formulaString = "";
-        let sc_val = 1, sq_val = 1, sg_val = 1;
-
-        if (tipePondasi === 'lajur') {
-             q_ult = (c_eff_base_unit_value * Nc) + (q_adjusted_base_unit_value * Nq) + (0.5 * gamma_effective_base_unit_value * B_cm * Ng);
-             formulaString = `q<sub>ult</sub> = (${c_symbol} × ${Nc_symbol}) + (q<sub>adj</sub> × ${Nq_symbol}) + (0.5 × γ<sub>eff</sub> × B × ${Ng_symbol})`;
-        } else if (tipePondasi === 'bujursangkar') {
-            if (tipeKeruntuhan === 'umum') {
-                sc_val = 1.3; sg_val = 0.8; 
-                q_ult = (c_eff_base_unit_value * Nc * sc_val) + (q_adjusted_base_unit_value * Nq * sq_val) + (0.5 * gamma_effective_base_unit_value * B_cm * Ng * sg_val);
-                formulaString = `q<sub>ult</sub> = (${sc_val.toString().replace('.',',')} × ${c_symbol} × ${Nc_symbol}) + (q<sub>adj</sub> × ${Nq_symbol} × ${sq_val.toString().replace('.',',')}) + (0.5 × γ<sub>eff</sub> × B × ${Ng_symbol} × ${sg_val.toString().replace('.',',')})`;
-            } else { 
-                q_ult = (0.867 * c_eff_base_unit_value * Nc) + (q_adjusted_base_unit_value * Nq) + (0.4 * gamma_effective_base_unit_value * B_cm * Ng);
-                formulaString = `q<sub>ult</sub> = (0,867 × ${c_symbol} × ${Nc_symbol}) + (q<sub>adj</sub> × ${Nq_symbol}) + (0,4 × γ<sub>eff</sub> × B × ${Ng_symbol})`;
+        
+        if (tipeKeruntuhan === 'umum') {
+            // General Shear Formulas
+            if (tipePondasi === 'lajur') {
+                q_ult = (c_eff * Nc) + (q_adj * Nq) + (0.5 * gamma_eff * B_cm * Ng);
+                formulaString = `q<sub>ult</sub> = (c × N<sub>c</sub>) + (q<sub>adj</sub> × N<sub>q</sub>) + (0.5 × γ<sub>eff</sub> × B × N<sub>γ</sub>)`;
+            } else if (tipePondasi === 'bujursangkar') {
+                q_ult = (1.3 * c_eff * Nc) + (q_adj * Nq) + (0.4 * gamma_eff * B_cm * Ng);
+                formulaString = `q<sub>ult</sub> = (1,3 × c × N<sub>c</sub>) + (q<sub>adj</sub> × N<sub>q</sub>) + (0,4 × γ<sub>eff</sub> × B × N<sub>γ</sub>)`;
+            } else { // Lingkaran
+                q_ult = (1.3 * c_eff * Nc) + (q_adj * Nq) + (0.3 * gamma_eff * B_cm * Ng);
+                formulaString = `q<sub>ult</sub> = (1,3 × c × N<sub>c</sub>) + (q<sub>adj</sub> × N<sub>q</sub>) + (0,3 × γ<sub>eff</sub> × B × N<sub>γ</sub>)`;
             }
-        } else { // lingkaran
-             if (tipeKeruntuhan === 'umum') {
-                sc_val = 1.3; sg_val = 0.6; 
-                q_ult = (c_eff_base_unit_value * Nc * sc_val) + (q_adjusted_base_unit_value * Nq * sq_val) + (0.5 * gamma_effective_base_unit_value * B_cm * Ng * sg_val);
-                formulaString = `q<sub>ult</sub> = (${sc_val.toString().replace('.',',')} × ${c_symbol} × ${Nc_symbol}) + (q<sub>adj</sub> × ${Nq_symbol} × ${sq_val.toString().replace('.',',')}) + (0.5 × γ<sub>eff</sub> × B × ${Ng_symbol} × ${sg_val.toString().replace('.',',')})`;
-            } else { 
-                q_ult = (0.867 * c_eff_base_unit_value * Nc) + (q_adjusted_base_unit_value * Nq) + (0.3 * gamma_effective_base_unit_value * B_cm * Ng);
-                formulaString = `q<sub>ult</sub> = (0,867 × ${c_symbol} × ${Nc_symbol}) + (q<sub>adj</sub> × ${Nq_symbol}) + (0,3 × γ<sub>eff</sub> × B × ${Ng_symbol})`;
+        } else { // Local Shear Formulas
+            if (tipePondasi === 'lajur') {
+                q_ult = ((2/3) * c_eff * Nc) + (q_adj * Nq) + (0.5 * gamma_eff * B_cm * Ng);
+                formulaString = `q<sub>ult</sub> = (2/3 × c × N'<sub>c</sub>) + (q<sub>adj</sub> × N'<sub>q</sub>) + (0.5 × γ<sub>eff</sub> × B × N'<sub>γ</sub>)`;
+            } else { // Bujursangkar dan Lingkaran
+                let lastTermCoeff = (tipePondasi === 'bujursangkar') ? 0.4 : 0.3;
+                q_ult = (0.867 * c_eff * Nc) + (q_adj * Nq) + (lastTermCoeff * gamma_eff * B_cm * Ng);
+                formulaString = `q<sub>ult</sub> = (0,867 × c × N'<sub>c</sub>) + (q<sub>adj</sub> × N'<sub>q</sub>) + (${lastTermCoeff.toString().replace('.',',')} × γ<sub>eff</sub> × B × N'<sub>γ</sub>)`;
             }
         }
 
@@ -926,7 +907,7 @@
         document.getElementById('hasilNq').textContent = Nq.toFixed(2);
         document.getElementById('hasilNgamma').textContent = Ng.toFixed(3);
         
-        updateAllOutputValues(); // Panggil fungsi untuk update semua display hasil
+        updateAllOutputValues(); 
 
         document.getElementById('formulaText').innerHTML = formulaString.replace(/\*/g, '×');
         document.getElementById('formulaDisplayContainer').style.display = 'block';
