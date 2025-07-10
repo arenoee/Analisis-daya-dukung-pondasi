@@ -56,6 +56,20 @@
             font-weight: 700;
             margin-bottom: 2rem; 
         }
+        .image-placeholder-container {
+            background-color: #f8f9fa;
+            border: 2px dashed #d6e4f0;
+            padding: 1rem;
+            border-radius: 12px;
+            text-align: center;
+            color: #6c757d;
+            margin-bottom: 2rem;
+        }
+        .image-placeholder-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
         .input-group {
             margin-bottom: 1.25rem; 
         }
@@ -309,7 +323,12 @@
 <div class="calculator-container">
     <h2 class="main-title">Analisis Daya Dukung Pondasi Dangkal<br>(Terzaghi)</h2>
 
-    <!-- PERUBAHAN: Area pesan dipindahkan ke bawah tombol Hitung -->
+    <div id="messageArea" class="mb-6"></div>
+
+    <div class="image-placeholder-container">
+        <img src="https://raw.githubusercontent.com/arenoee/Analisis-daya-dukung-pondasi-dangkal/refs/heads/main/diagram-pondasi.png" alt="Diagram Parameter Pondasi" class="mx-auto rounded-lg">
+    </div>
+
     <div class="section-title">Parameter Dasar Pondasi & Tanah</div>
     <div class="input-grid mb-6">
         <div class="input-group">
@@ -389,6 +408,11 @@
     </div>
 
     <div class="section-title">Parameter Muka Air Tanah (MAT)</div>
+    <!-- PENAMBAHAN GAMBAR PLACEHOLDER KEDUA DI SINI -->
+    <div class="image-placeholder-container">
+        <img src="https://raw.githubusercontent.com/arenoee/Analisis-daya-dukung-pondasi-dangkal/refs/heads/main/diagram-mat.png" alt="Diagram Kondisi Muka Air Tanah" class="mx-auto rounded-lg">
+    </div>
+    <!-- AKHIR PENAMBAHAN -->
     <div class="input-grid">
          <div class="input-group">
             <label for="kedalamanMAT">Kedalaman MAT dari Permukaan (Dw):</label>
@@ -429,7 +453,7 @@
 
     <button type="button" id="mainCalculateButton" class="calculate-button">Hitung Daya Dukung</button> 
     
-    <div id="messageArea" class="mt-6"></div> <!-- Area pesan dipindahkan ke sini -->
+    <div id="messageArea" class="mt-6"></div> 
 
     <div class="results-container">
         <h3>Hasil Perhitungan:</h3>
@@ -517,7 +541,7 @@
     <div class="watermark">
         D4 Teknologi Rekayasa Konstruksi Bangunan Air<br>
         Institut Teknologi Sepuluh Nopember<br>
-        <i>TRKBA - C</i>
+        <i>Nahar Dwi Febriano</i>
     </div>
 </div>
 
@@ -587,6 +611,8 @@
 </div>
 
 <script>
+    // --- JavaScript (Logika sama seperti versi sebelumnya) ---
+    // ... (Seluruh kode JavaScript dari versi sebelumnya disalin ke sini) ...
     // --- FAKTOR KONVERSI (SATUAN DASAR INTERNAL: kg & cm) ---
     const unitFactors = {
         pressure: { 'kg/cm2': 1, 'ton/m2': 0.1, 'kN/m2': 0.0101971621 },
